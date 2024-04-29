@@ -1,4 +1,4 @@
-package imp;
+package ex999_test;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -18,6 +19,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -67,6 +70,7 @@ class MembershipChecker {
 }
 
 public class LoginForm extends JFrame {
+	
 
 	/* 
 	 * 로그인 화면
@@ -101,13 +105,17 @@ public class LoginForm extends JFrame {
     private JButton btnJoin;
     private ImageIcon logoImg;
     private JLabel logoLb;
+	private JMenuBar jmenu;
+	
     
     public LoginForm() {
 		init();
 		setDisplay();
 		addListeners();
 	    showFrame();
+
 	}
+
     
     public void init() {
         
@@ -194,7 +202,7 @@ public class LoginForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
             	
             	// join 버튼 선택시 join 화면으로 이동
-            	Join joinFrame = new Join(LoginForm.this);
+            	Join1 joinFrame = new Join1(LoginForm.this);
             	joinFrame.setVisible(true);
             	setVisible(false);
             	
@@ -230,8 +238,6 @@ public class LoginForm extends JFrame {
 				            pwPf.setText("");
 				            // !! 항공권 조회 화면으로 넘어가는 코드를 여기에 추가 !!
 				            
-				           
-				            
 				            
 				        } else {
 				            // 입력한 비밀번호가 member.txt에 존재하는 id에 맞는 비밀번호와 일치하지 않을 때
@@ -258,6 +264,7 @@ public class LoginForm extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setVisible(true);
+        
     }
 
     public static void main(String[] args) {
@@ -267,3 +274,4 @@ public class LoginForm extends JFrame {
     
 	
 }
+
