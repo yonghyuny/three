@@ -143,6 +143,8 @@ public class Join extends JFrame {
                     Member member = new Member(name, id, hashedPassword, phoneNumber);
                     saveMemberToFile(member);
                     JOptionPane.showMessageDialog(null, "가입 완료!");
+                    setVisible(false);
+                    loginForm.setVisible(true);
                     break;
                 case "취소":
                     // 취소 버튼 동작 추가
