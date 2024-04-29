@@ -1,4 +1,4 @@
-package ex999_test;
+package imp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +13,8 @@ public class Join extends JFrame {
     private JTextField nameTf; // 이름 입력 필드
     private JTextField idTf; // 아이디 입력 필드
     private JPasswordField passwordPf; // 비밀번호 입력 필드
+    private JComboBox<String> phoneCb;
+    private JTextField phoneTf;
     private JButton cancelBtn;	// 취소 버튼
     private LoginForm loginForm;	// 로그인 화면으로 넘어가기 위한 인스턴스 변수
 
@@ -35,17 +37,23 @@ public class Join extends JFrame {
         JPanel totalBtn = new JPanel();
 
         JLabel nameLb = new JLabel("이름: ");
+        nameLb.setPreferredSize(new Dimension(80, 20)); // 라벨의 크기 설정
         nameTf = new JTextField(20); // 이름 입력 필드 초기화
 
         JLabel idLb = new JLabel("아이디: ");
+        idLb.setPreferredSize(new Dimension(80, 20)); // 라벨의 크기 설정
         idTf = new JTextField(20); // 아이디 입력 필드 초기화
 
         JLabel passwordLb = new JLabel("비밀번호: ");
+        passwordLb.setPreferredSize(new Dimension(80, 20)); // 라벨의 크기 설정
         passwordPf = new JPasswordField(20); // 비밀번호 입력 필드 초기화
 
-        JLabel phoneLb = new JLabel("전화번호: ");
-        JTextField phoneTf1 = new JTextField(10);
-        JTextField phoneTf2 = new JTextField(10);
+        JLabel phoneLb = new JLabel("전화번호:");
+        phoneLb.setPreferredSize(new Dimension(80, 20)); // 라벨의 크기 설정
+        String[] phone = {"010","02","031","032","051","052"};
+        phoneCb = new JComboBox<String>(phone);
+        phoneTf = new JTextField(15); // 전화번호 입력 필드 초기화
+        
 
         JButton registerBtn = new JButton("가입하기");
         cancelBtn = new JButton("취소");
@@ -60,23 +68,31 @@ public class Join extends JFrame {
         jpName.add(nameTf);
 
         jpPhone.add(phoneLb);
-        jpPhone.add(phoneTf1);
-        jpPhone.add(phoneTf2);
+        jpPhone.add(phoneCb);
+        jpPhone.add(phoneTf);
+        
 
         totalBtn.add(registerBtn);
         totalBtn.add(cancelBtn);
 
         jpMain.add(Box.createVerticalGlue()); // 상단에 공간 추가
+        jpMain.add(Box.createVerticalGlue());
+        jpMain.add(Box.createVerticalGlue());
         jpMain.add(jpName);
         jpMain.add(jpId);
         jpMain.add(jpPw);
         jpMain.add(jpPhone);
-        jpMain.add(Box.createVerticalGlue()); // 하단에 공간 추가
+        jpMain.add(Box.createVerticalGlue());// 하단에 공간 추가
+        jpMain.add(Box.createVerticalGlue());
+        jpMain.add(Box.createVerticalGlue());
 
         jpMain.add(totalBtn);
 
         totalBtn.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
-
+        jpName.setAlignmentX(Component.CENTER_ALIGNMENT);
+        jpId.setAlignmentX(Component.CENTER_ALIGNMENT);
+        jpPw.setAlignmentX(Component.CENTER_ALIGNMENT);
+        jpPhone.setAlignmentX(Component.CENTER_ALIGNMENT);
         registerBtn.addActionListener(btnAl);
         cancelBtn.addActionListener(btnAl);
 
@@ -99,8 +115,8 @@ public class Join extends JFrame {
 
     private void showFrame() {
         setTitle("회원 가입");
-        setSize(1600, 800);
-        setLocationRelativeTo(null);
+        setSize(400, 400);
+        setLocationRelativeTo(null); // 화면 중앙에 위치
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -111,6 +127,8 @@ public class Join extends JFrame {
             String name = nameTf.getText();
             String id = idTf.getText();
             String password = new String(passwordPf.getPassword());
+            String phoneNumber = phoneCb.getSelectedItem().toString() + phoneTf.getText();
+           
             switch (e.getActionCommand()) {
                 case "가입하기":
                     if (!isValidInput(name, id, password)) {
@@ -122,7 +140,7 @@ public class Join extends JFrame {
                         return;
                     }
                     String hashedPassword = hashPassword(password);
-                    Member member = new Member(name, id, hashedPassword);
+                    Member member = new Member(name, id, hashedPassword, phoneNumber);
                     saveMemberToFile(member);
                     JOptionPane.showMessageDialog(null, "가입 완료!");
                     break;
@@ -147,16 +165,18 @@ public class Join extends JFrame {
         private String name;
         private String id;
         private String password;
+        private String phoneNumber;
 
-        public Member(String name, String id, String password) {
+        public Member(String name, String id, String password, String phoneNumber) {
             this.name = name;
             this.id = id;
             this.password = password;
+            this.phoneNumber = phoneNumber;
         }
 
         @Override
         public String toString() {
-            return "이름: " + name + ", 아이디: " + id + ", 비밀번호: " + password;
+            return "이름: " + name + ", 아이디: " + id + ", 비밀번호: " + password + ", 전화번호: "+ phoneNumber;
         }
     }
 
@@ -205,3 +225,4 @@ public class Join extends JFrame {
 
 }
 
+        
