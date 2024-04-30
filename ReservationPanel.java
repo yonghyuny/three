@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import flight.Flight;
+import flight.FlightList;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -40,6 +41,10 @@ public class ReservationPanel {
 	JMenuBar jMenu;
 	JPanel jpCon;
 	JPanel jpCheck;
+	
+	String date;
+	String destination;
+	int countPeople;
 	
 	public ReservationPanel () {
 		
@@ -83,13 +88,12 @@ public class ReservationPanel {
 		dest.setPreferredSize(new Dimension(200, 38));
 		dest.setFont(new Font("맑은 고딕", Font.PLAIN, 30));
 		dest.setBackground(Color.white);
-
 		
 		ActionListener alDest = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String value = (String)dest.getSelectedItem();
-				System.out.println("목적지 : " + value);
+				destination = (String)dest.getSelectedItem();
+				System.out.println("목적지 : " + destination);
 			}
 		};
 				
@@ -109,21 +113,23 @@ public class ReservationPanel {
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
+		date = model.getYear() + "-" + (model.getMonth() + 1) + "-" + model.getDay();
 
 				
 		// 인원 선택
-		Integer[] num = {1, 2, 3, 4, 5};
+		Integer[] num = {1, 2, 3};
 		JComboBox<Integer> people = new JComboBox <>(num);
 		people.setPreferredSize(new Dimension(200, 30));
 		people.setBackground(Color.white);
+		people.setSelectedIndex(0);
 
 		people.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
 					
 		ActionListener alPeople = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int value = (Integer)people.getSelectedItem();
-				System.out.println("인원 수 : " + value);
+				countPeople = (Integer)people.getSelectedItem();
+				System.out.println("인원 수 : " + countPeople);
 			}
 		};
 		
@@ -194,14 +200,10 @@ public class ReservationPanel {
 				// 항공권 조회 정보
 	            String selectedDest = (String) dest.getSelectedItem();
 				if(!selectedDest.equals("목적지")) {
-					int flightStartYear = model.getYear();
-					int flightStartMonth = model.getMonth() + 1;
-					int flightStartday = model.getDay();
-					String startPoint = "인천";
-					String destination = (String) dest.getSelectedItem();
-					int countPeople = (int) people.getSelectedItem();
+					ReservationInfo tempReser = new ReservationInfo(date, destination, countPeople);
 					
-					// new (startPiont, destination, flightStartYear, flightStartMonth, flightStartDay, countPeople); // 항공권 조회 페이지
+					new FlightList(tempReser);
+					
 		            f.setVisible(false);
 				}  else {
 		            // 유효하지 않은 목적지인 경우

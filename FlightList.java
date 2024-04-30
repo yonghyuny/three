@@ -34,13 +34,27 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import reservation.ReservationInfo;
+
 
 
 public class FlightList {
 	
-	public FlightList() {
+	ReservationInfo tempReser;
+	JLabel destinationLabel;
+	JLabel dateLabel;
+	
+	public FlightList() { }
+	
+	public FlightList(ReservationInfo tempReser) {
+		
+		this.tempReser = tempReser;
+		String date = tempReser.getDate();
+		String destination = tempReser.getDestination();
+		
 		JFrame f = new JFrame("항공권 리스트"); // 제목
         f.setLayout(new BorderLayout());
+        
         
       //메뉴바
         JMenuBar jmb = new JMenuBar();
@@ -59,40 +73,62 @@ public class FlightList {
 			}
 		});
         
+        //출발지 도착지 날짜 정보 패널
+        JPanel infoPanel = new JPanel();
+        JLabel departLb = new JLabel("출발지");
+        JLabel lb1 = new JLabel("인천"); 
         
-        String[] title = {"항공사명", "출발시간", "도착시간", "소요시간", "가격"};  
+        destinationLabel = new JLabel("도착지 : " + destination);
+        dateLabel = new JLabel("날짜 : " + date);
+//        JLabel destiLb = new JLabel("도착지");
+//        JLabel lb2 = new JLabel(destination);
+//        JLabel timeLb = new JLabel("날짜");
+//        JLabel lb3 = new JLabel(date);
+        
+        infoPanel.add(departLb);
+        infoPanel.add(lb1);
+        infoPanel.add(destinationLabel);
+//        infoPanel.add(lb2);
+        infoPanel.add(dateLabel);
+//        infoPanel.add(lb3);
+        f.add(infoPanel, BorderLayout.NORTH);
+        
+                
+      //항공명 
+        
+        
+        String[] title = {"항공사명", "출발시간", "도착시간", "소요시간",};  
         String[][] data = {
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"아시아나", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분", "81,500원"}
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"아시아나", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "06:45", "09:20", "직항, 02시간 35분",}
         };
+        
         
         DefaultTableModel model = new DefaultTableModel(data, title);
         JTable table = new JTable(model);
-        table.setRowHeight(80);
+        table.setRowHeight(50);
+        
         
         JPanel jp = new JPanel(new BorderLayout());
-        jp.add(Box.createHorizontalStrut(200), BorderLayout.NORTH);
-        jp.add(Box.createHorizontalStrut(200), BorderLayout.SOUTH);
         jp.add(Box.createHorizontalStrut(200), BorderLayout.EAST);
         jp.add(Box.createHorizontalStrut(200), BorderLayout.WEST);
-        jp.add(new JScrollPane(table), BorderLayout.CENTER);
         
         
         
-
+        
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -101,13 +137,11 @@ public class FlightList {
                     int option = JOptionPane.showConfirmDialog(table, "구매하시겠습니까?", "구매 확인", JOptionPane.YES_NO_OPTION);
                     if (option == JOptionPane.YES_OPTION) {
                         // "예"를 클릭한 경우
-                        JOptionPane.showMessageDialog(table, " 구매가 완료되었습니다.");
-                        
-                        //다음화면 창으로 넘어가는
-                        JFrame f1 = new JFrame();
-                        f1.setSize(400, 400);
-                        f1.setVisible(true);
-                        
+                        String rowData = ""; // 클릭한 행의 정보를 저장할 문자열
+                        for (int i = 0; i < table.getColumnCount(); i++) {
+                            rowData += table.getValueAt(row, i) + " "; // 각 열의 데이터를 연결
+                        }
+                        JOptionPane.showMessageDialog(table, "구매 정보: " + rowData);
                     } else if (option == JOptionPane.NO_OPTION) {
                         // "아니오"를 클릭한 경우
                         JOptionPane.showMessageDialog(table, "구매가 취소되었습니다.");
@@ -118,11 +152,12 @@ public class FlightList {
 
         // 수직 및 수평 스크롤바 설정
         JScrollPane js = new JScrollPane(table);
-        js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        js.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         jp.add(js);
-        jp.setSize(800, 400);
+       
+        
         
         //테이블 내용 가운데 정렬
         DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
@@ -132,6 +167,8 @@ public class FlightList {
         for(int i = 0; i < tcm.getColumnCount(); i++) {
         	tcm.getColumn(i).setCellRenderer(dtcr);
         }
+       
+        
         
         
         f.setJMenuBar(jmb);
@@ -139,14 +176,17 @@ public class FlightList {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(1600,800);
         f.setVisible(true);
-        
 	}
 	
-	
-	public static void main(String[] args) {
-       
-        
-        FlightList flightList = new FlightList();
-
+    public ReservationInfo getReservationInfo() {
+        return tempReser;
     }
+	
+	
+//	public static void main(String[] args) {
+//       
+//        
+//        FlightList flightList = new FlightList();
+//
+//    }
 }
