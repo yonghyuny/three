@@ -1,4 +1,4 @@
-package imp;
+package flight;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -34,23 +34,15 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+
+
 public class FlightList {
-	private static LoginForm loginForm;
 	
-	public FlightList(LoginForm loginForm) {
-		this.loginForm = loginForm; 
-	}
-	
-	
-	public static void main(String[] args) {
-        JFrame f = new JFrame("항공권 리스트"); // 제목
+	public FlightList() {
+		JFrame f = new JFrame("항공권 리스트"); // 제목
         f.setLayout(new BorderLayout());
         
-        LoginForm loginForm = new LoginForm();
-        FlightList flightList = new FlightList(loginForm);
-
-        
-        //메뉴바
+      //메뉴바
         JMenuBar jmb = new JMenuBar();
         JMenuItem jm1 = new JMenuItem("예매내역");
         JMenuItem jm2 = new JMenuItem("로그아웃");
@@ -109,8 +101,9 @@ public class FlightList {
                     int option = JOptionPane.showConfirmDialog(table, "구매하시겠습니까?", "구매 확인", JOptionPane.YES_NO_OPTION);
                     if (option == JOptionPane.YES_OPTION) {
                         // "예"를 클릭한 경우
-                        JOptionPane.showMessageDialog(table, "구매가 완료되었습니다.");
+                        JOptionPane.showMessageDialog(table, " 구매가 완료되었습니다.");
                         
+                        //다음화면 창으로 넘어가는
                         JFrame f1 = new JFrame();
                         f1.setSize(400, 400);
                         f1.setVisible(true);
@@ -146,5 +139,14 @@ public class FlightList {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(1600,800);
         f.setVisible(true);
+        
+	}
+	
+	
+	public static void main(String[] args) {
+       
+        
+        FlightList flightList = new FlightList();
+
     }
 }
