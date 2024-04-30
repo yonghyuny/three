@@ -7,11 +7,14 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import flight.Flight;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 import reservationDetails.ReservationDetails;
 import test_jframe.JFrameTest;
+import userInfo.UserInfo;
+import userInfo.UserInfoManager;
 
 public class ReservationPanel {
 	
@@ -34,22 +37,22 @@ public class ReservationPanel {
 	 *
 	 * */
 	
-	JMenuBar jpBar;
+	JMenuBar jMenu;
 	JPanel jpCon;
 	JPanel jpCheck;
 	
 	public ReservationPanel () {
 		
 		// 상단 바 - 예매내역, 로그아웃
-		jpBar = new JMenuBar ();
-		jpBar.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-		JButton reser = new JButton("예매내역");
-		reser.setPreferredSize(new Dimension(100, 35));
-		JButton logout = new JButton("로그아웃");
-		logout.setPreferredSize(new Dimension(100, 35));
-					
-		jpBar.add(reser);
-		jpBar.add(logout);
+		jMenu = new JMenuBar ();
+
+    	JMenuItem reser = new JMenuItem("예매내역");
+    	JMenuItem logout = new JMenuItem("로그아웃");
+    	jMenu.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
+    	
+    	jMenu.add(reser);
+    	jMenu.add(logout);
+   
 					
 		// 항공권 조회
 		jpCon = new JPanel ();
@@ -115,7 +118,17 @@ public class ReservationPanel {
 		people.setBackground(Color.white);
 
 		people.setFont(new Font("맑은 고딕", Font.PLAIN, 25));
-				
+					
+		ActionListener alPeople = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int value = (Integer)people.getSelectedItem();
+				System.out.println("인원 수 : " + value);
+			}
+		};
+		
+		people.addActionListener(alPeople);   
+		
 		startDest1.add(jl1);
 		startDest1.add(jl2);
 		startDest2.add(start);
@@ -124,7 +137,6 @@ public class ReservationPanel {
 		goPeople1.add(jl4);
 		goPeople2.add(datePicker);
 		goPeople2.add(people);
-		
 		
 		jpCon.add(Box.createVerticalGlue());
 		jpCon.add(Box.createVerticalGlue());
@@ -135,15 +147,6 @@ public class ReservationPanel {
 		jpCon.add(Box.createVerticalGlue());
 		jpCon.add(Box.createVerticalGlue());
 				
-		ActionListener alPeople = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int value = (Integer)people.getSelectedItem();
-				System.out.println("인원 수 : " + value);
-			}
-		};
-				
-		people.addActionListener(alPeople);   
 				
 		// 조회 버튼
 		jpCheck = new JPanel();
@@ -153,7 +156,7 @@ public class ReservationPanel {
 		jpCheck.add(check);
 		
 		JFrameTest f = new JFrameTest();
-		f.setJMenuBar(jpBar);
+		f.setJMenuBar(jMenu);
 		f.add(jpCon, BorderLayout.CENTER);
 		f.setLocationRelativeTo(null);
 		f.add(jpCheck, BorderLayout.SOUTH);
@@ -165,7 +168,8 @@ public class ReservationPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 예매내역 창 호출
-				new ReservationDetails();
+				UserInfo userInfo = new UserInfo("id");
+				new ReservationDetails(userInfo);
 				f.setVisible(false);
 			}
 		});
@@ -176,7 +180,8 @@ public class ReservationPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 로그인 창 호출
-				// new ();
+//				logout();
+				// new LoginForm();
 				f.setVisible(false);
 			}
 		});
@@ -208,6 +213,10 @@ public class ReservationPanel {
 		
 		
 	}
+	
+//	public void logout() {
+//		userInfo = null;
+//	}
 	
 	public static void main(String[] args) {
 		
