@@ -7,15 +7,10 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-//import flight.Flight;
-//import flight.FlightList;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
-//import reservationDetails.ReservationDetails;
-//import test_jframe.JFrameTest;
-//import userInfo.UserInfo;
-//import userInfo.UserInfoManager;
+
 
 public class ReservationPanel {
 	

@@ -7,6 +7,9 @@ public class Member {
     private String password;
     private String phoneNumber;
 
+    
+    public Member () { }
+
     public Member(String name, String id, String password, String phoneNumber) {
     	this.name = name;
         this.id = id;

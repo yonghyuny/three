@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -298,12 +301,15 @@ public class Seat extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				// 예약 정보 저장
 				userInfo.setAirline(tempReser.getAirline());
 				userInfo.setAirplane(tempReser.getAirplane());
 				userInfo.setDestination(tempReser.getDestination());
 				userInfo.setDate(tempReser.getDate());
 				userInfo.setPeople(tempReser.getCountPeople());
+				
+				// 예약 정보 텍스트 파일로 저장
+				saveMemberReservationToFile(userInfo);
 
 				new ReservationDetails(userInfo);
 				
@@ -335,6 +341,16 @@ public class Seat extends JFrame{
         setJMenuBar(jmenu);
         setVisible(true);
         
+    }
+    
+    private static void saveMemberReservationToFile(UserInfo userInfo) {
+        // 파일에 회원 정보 저장
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("membersReservation.txt", true))) {
+            bw.write(userInfo.toString());
+            bw.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
 	public void logout() {

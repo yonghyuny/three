@@ -163,25 +163,6 @@ public class Join extends JFrame {
         }
     }
 
-    static class Member {
-        private String name;
-        private String id;
-        private String password;
-        private String phoneNumber;
-
-        public Member(String name, String id, String password, String phoneNumber) {
-            this.name = name;
-            this.id = id;
-            this.password = password;
-            this.phoneNumber = phoneNumber;
-        }
-
-        @Override
-        public String toString() {
-            return "이름: " + name + ", 아이디: " + id + ", 비밀번호: " + password + ", 전화번호: "+ phoneNumber;
-        }
-    }
-
     private static boolean isIdDuplicated(String id) {
         // 아이디 중복 체크
         try (BufferedReader br = new BufferedReader(new FileReader("members.txt"))) {

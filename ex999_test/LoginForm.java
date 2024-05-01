@@ -28,7 +28,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-//import test.Join1;
 
 class MembershipChecker {
 	
@@ -108,6 +107,8 @@ public class LoginForm extends JFrame {
     private ImageIcon logoImg;
     private JLabel logoLb;
 	private JMenuBar jmenu;
+	
+	UserInfo userInfo;
 	
     
     public LoginForm() {
@@ -233,10 +234,11 @@ public class LoginForm extends JFrame {
 				        String storedPassword = getPasswordForId(idTf.getText()); // member.txt 파일에서 해당 아이디의 비밀번호 가져오기
 				        if (storedPassword != null && MembershipChecker.isPasswordCorrect(enteredPassword, storedPassword)) {
 				        	
-				        	// id가 일치하는 유저 정보 가져오기
-//				        	UserInfo userInfo = new UserInfo(idTf.getText());
-				        	UserInfo userInfo = new UserInfo("abc", "abc", "01011111111");
+				        	// members.txt에서 id, name, phoneNumber 정보를 UserInfo에 저장하기
+				        	extractMembers("members.txt", idTf.getText());
 				        	
+				        	// membersReservation.txt에 저장된 id가 있는 지 확인해서 있으면 예약정보 저장
+				        	extractMembersReservation(userInfo, "membersReservation.txt", idTf.getText());
 				        	
 				        	
 				            // 입력한 비밀번호가 member.txt에 존재하는 해싱 비밀번호와 일치할 때
@@ -276,6 +278,87 @@ public class LoginForm extends JFrame {
         setVisible(true);
         
     }
+    
+    public UserInfo extractMembers (String fileName, String id) {
+    	try (BufferedReader br = new BufferedReader(new FileReader(fileName))){
+			String line;
+			
+			while ((line = br.readLine()) != null) {
+				if (line.contains("아이디: " + id + ",")) {
+					String name = null;
+					String number = null;
+					String[] texts = line.split(", ");
+					
+	                for (String text : texts) {
+	                    if (text.startsWith("이름: ")) {
+	                        name = text.substring("이름: ".length());
+	                    } else if (text.startsWith("전화번호: ")) {
+	                        number = text.substring("전화번호: ".length());
+	                    }
+	                }
+	                
+	                if (name != null) {
+	                	userInfo = new UserInfo (id, name, number);
+	                }
+	                
+	                break;
+				}
+			}
+			
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	return userInfo;
+    }
+    
+    public UserInfo extractMembersReservation (UserInfo userInfo, String fileName, String id) {
+    	
+    	try (BufferedReader br = new BufferedReader(new FileReader(fileName))){
+    		String line;
+			while ((line = br.readLine()) != null) {
+				if (line.contains("아이디: " + id + ",")) {
+					String airline = null;
+					String airplane = null;
+					String destination = null;
+					String date = null;
+					String people = null;
+					String[] texts = line.split(", ");
+					
+	                for (String text : texts) {
+	                    if (text.startsWith("항공사: ")) {
+	                    	airline = text.substring("항공사: ".length());
+	                    } else if (text.startsWith("항공편: ")) {
+	                    	airplane = text.substring("항공편: ".length());
+	                    } else if (text.startsWith("도착지: ")) {
+	                    	destination = text.substring("도착지: ".length());
+	                    } else if (text.startsWith("날짜: ")) {
+	                    	date = text.substring("날짜: ".length());
+	                    } else if (text.startsWith("인원: ")) {
+	                    	people = text.substring("인원: ".length());
+	                    }
+	                }
+	                
+	                if (airline != null) {
+	                	userInfo.setAirline(airline);
+	                	userInfo.setAirplane(airplane);
+	                	userInfo.setDestination(destination);
+	                	userInfo.setDate(date);
+	                	userInfo.setPeople(Integer.parseInt(people));
+	                }
+	                
+	                break;
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	
+    	return userInfo;
+    }
+    
 
     public static void main(String[] args) {
     	LoginForm loginForm = new LoginForm();

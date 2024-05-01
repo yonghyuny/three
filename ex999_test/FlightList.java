@@ -34,9 +34,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-//import reservation.ReservationInfo;
-
-
 
 public class FlightList {
 	

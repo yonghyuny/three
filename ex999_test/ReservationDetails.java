@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ReservationDetails {
 	
@@ -171,7 +172,7 @@ public class ReservationDetails {
 		f.add(jpCon, BorderLayout.CENTER);
 		f.add(jpCheck, BorderLayout.SOUTH);
 		f.setSize(1400,800);
-		
+        f.setLocationRelativeTo(null);
 		f.setVisible(true);
 		
 		
@@ -194,7 +195,30 @@ public class ReservationDetails {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-			}
+				String reservationInfo = "이름 : " + userInfo.getName() + "\n전화번호 : " + userInfo.getNumber() +
+										"\n항공사 : " + userInfo.getAirline() + "\n항공편 : " + userInfo.getAirplane() +
+										"\n날짜 : " + userInfo.getDate() + "\n출발지 : 인천" + "\n도착지 : " + userInfo.getDestination() + 
+										"\n인원 : " + userInfo.getPeople();
+				
+				 JFileChooser fileChooser = new JFileChooser();
+	             fileChooser.setFileFilter(new FileNameExtensionFilter("Text files", "txt")); // .txt 파일만 필터링
+	             int userSelection = fileChooser.showSaveDialog(null);
+
+	             if (userSelection == JFileChooser.APPROVE_OPTION) {
+	            	 File fileToSave = fileChooser.getSelectedFile();
+	                 if (!fileToSave.getAbsolutePath().endsWith(".txt")) {
+	                        // 파일의 확장자가 .txt가 아닌 경우 확장자를 .txt로 추가
+	                	 fileToSave = new File(fileToSave.getAbsolutePath() + ".txt");
+	                 }
+	                 try (PrintWriter writer = new PrintWriter(new FileWriter(fileToSave))) {
+	                	 writer.println(reservationInfo); // 예매내역을 텍스트 파일에 쓰기
+	                     System.out.println("예매내역이 저장되었습니다.");
+	                 } catch (IOException e2) {
+	                     e2.printStackTrace();
+	                     System.err.println("저장 실패");
+	                 }
+	             }
+	       }
 			
 		});
 		

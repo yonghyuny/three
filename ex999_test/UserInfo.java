@@ -12,11 +12,6 @@ public class UserInfo {
 	
 	public UserInfo () { }
 	
-	// 이름, 전화번호 정보 가져오는 코드 구현시 삭제할 것(임시)
-	public UserInfo (String id) {
-		this.id = id;
-	}
-	
 	public UserInfo (String id, String name, String number) {
 		this.id = id;
 		this.name = name;
@@ -75,16 +70,18 @@ public class UserInfo {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public int getPeople() {
 		return people;
 	}
 
 	public void setPeople(int people) {
 		this.people = people;
+	}
+	
+	@Override
+	public String toString() {
+		return "아이디: " + id + ", 이름: " + name + ", 전화번호: " + number + ", 항공사: " + airline + ", 항공편: " + airplane +
+				", 도착지: " + destination + ", 날짜: " + date + ", 인원: " + people;
 	}
 	
 }
