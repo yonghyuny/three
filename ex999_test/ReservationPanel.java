@@ -42,11 +42,16 @@ public class ReservationPanel {
 	JPanel jpCon;
 	JPanel jpCheck;
 	
+	UserInfo userInfo;
 	String date;
 	String destination;
 	int countPeople;
 	
-	public ReservationPanel () {
+	public ReservationPanel () { }
+	
+	public ReservationPanel (UserInfo userInfo) {
+		
+		this.userInfo = userInfo;
 		
 		// 상단 바 - 예매내역, 로그아웃
 		jMenu = new JMenuBar ();
@@ -177,7 +182,6 @@ public class ReservationPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 예매내역 창 호출
-				UserInfo userInfo = new UserInfo("id");
 				new ReservationDetails(userInfo);
 				f.setVisible(false);
 			}
@@ -189,8 +193,8 @@ public class ReservationPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 로그인 창 호출
-//				logout();
-				// new LoginForm();
+				logout();
+				new LoginForm();
 				f.setVisible(false);
 			}
 		});
@@ -205,7 +209,7 @@ public class ReservationPanel {
 				if(!selectedDest.equals("목적지")) {
 					ReservationInfo tempReser = new ReservationInfo(date, destination, countPeople);
 					
-					new FlightList(tempReser);
+					new FlightList(userInfo, tempReser);
 					
 		            f.setVisible(false);
 				}  else {
@@ -219,16 +223,9 @@ public class ReservationPanel {
 		
 	}
 	
-//	public void logout() {
-//		userInfo = null;
-//	}
-	
-	public static void main(String[] args) {
-		
-		ReservationPanel rp = new ReservationPanel();
-		
-	}
-	
+	public void logout() {
+		userInfo = null;
+	}	
 
 	
 }

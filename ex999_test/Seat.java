@@ -29,7 +29,11 @@ public class Seat extends JFrame{
 	private String seatPrice;
 	private JMenuBar jmenu;
 	private static LoginForm loginForm;
-	private int peopleNum;	// 예약패널 클래스에서 선택된 인원 수를 가져올 변수
+	
+	UserInfo userInfo;
+	ReservationInfo tempReser;
+	
+	public Seat () { }
 	
     
     public Seat(LoginForm loginForm) {
@@ -40,7 +44,11 @@ public class Seat extends JFrame{
         
     }    
     
-    public Seat() {
+    public Seat(UserInfo userInfo, ReservationInfo tempReser) {
+    	
+    	this.userInfo = userInfo;
+    	this.tempReser = tempReser;
+    	
     	menuBar();
         flightSeat();
         showFrame();
@@ -50,22 +58,36 @@ public class Seat extends JFrame{
     private void menuBar() {
 		// 상단 메뉴바
     	jmenu = new JMenuBar();
-    	JMenuItem jm1 = new JMenuItem("예매내역");
-    	JMenuItem jm2 = new JMenuItem("로그아웃");
+    	JMenuItem reser = new JMenuItem("예매내역");
+    	JMenuItem logout = new JMenuItem("로그아웃");
     	jmenu.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
     	
-    	jmenu.add(jm1);
-    	jmenu.add(jm2);
-    	 	
-    	jm2.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// jm2 클릭시 로그인 화면으로 이동 -> LoginForm.java
-				setVisible(false);	// Seat화면 숨기기
-				loginForm.setVisible(true);	// LoginForm 화면 보이기	
-			}
-		});
+        jmenu.add(reser);
+        jmenu.add(logout);
+        
+//        // 예매내역 버튼 클릭 시 예매내역 페이지로 이동
+//        reser.addActionListener(new ActionListener() {
+//        	@Override
+//        	public void actionPerformed(ActionEvent e) {
+//        		// 예매내역 창 호출
+//			new ReservationDetails(userInfo);
+//        		f.setVisible(false);
+//        	}
+//        });
+//        
+//        
+//        // 로그아웃 버튼 클릭 시 로그아웃 되고 로그인 페이지로 이동
+//        logout.addActionListener(new ActionListener() {
+//        	@Override
+//        	public void actionPerformed(ActionEvent e) {
+//        		// 로그인 창 호출
+//        		logout();
+//        		new LoginForm();
+//        		f.setVisible(false);
+//        	}
+//        });
+
+    	
 
 	}
 
@@ -249,7 +271,7 @@ public class Seat extends JFrame{
 //        peopleNum = ReservationPanel1.peopleNum;
 //        peopleNum = ReservationPanel.countPeople;
         
-        JLabel selectedNum = new JLabel("인원 : "+peopleNum);        
+        JLabel selectedNum = new JLabel("인원 : "+tempReser.getCountPeople());        
         selectedNum.setBounds(1125,560,150,30);
         selectedNum.setFont(new Font("Arial", Font.PLAIN, 18));
         getContentPane().add(selectedNum);
@@ -276,6 +298,15 @@ public class Seat extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				userInfo.setAirline(tempReser.getAirline());
+				userInfo.setAirplane(tempReser.getAirplane());
+				userInfo.setDestination(tempReser.getDestination());
+				userInfo.setDate(tempReser.getDate());
+				userInfo.setPeople(tempReser.getCountPeople());
+
+				new ReservationDetails(userInfo);
+				
 				// 현재 화면 숨기기
 				setVisible(false);
 				
@@ -290,6 +321,8 @@ public class Seat extends JFrame{
         getContentPane().add(pnl);
         setVisible(true);
         
+        
+        
     }
 	
 
@@ -303,6 +336,10 @@ public class Seat extends JFrame{
         setVisible(true);
         
     }
+    
+	public void logout() {
+		userInfo = null;
+	}
     
     
     public static void main(String[] args) {

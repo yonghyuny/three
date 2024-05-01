@@ -8,12 +8,19 @@ public class UserInfo {
 	private String airplane;
 	private String destination;
 	private String date;
-	private String people;
+	private int people;
 	
 	public UserInfo () { }
 	
+	// 이름, 전화번호 정보 가져오는 코드 구현시 삭제할 것(임시)
 	public UserInfo (String id) {
 		this.id = id;
+	}
+	
+	public UserInfo (String id, String name, String number) {
+		this.id = id;
+		this.name = name;
+		this.number = number;
 	}
 
 	public String getName() {
@@ -72,11 +79,11 @@ public class UserInfo {
 		this.id = id;
 	}
 
-	public String getPeople() {
+	public int getPeople() {
 		return people;
 	}
 
-	public void setPeople(String people) {
+	public void setPeople(int people) {
 		this.people = people;
 	}
 	

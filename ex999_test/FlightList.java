@@ -40,14 +40,16 @@ import javax.swing.table.TableColumnModel;
 
 public class FlightList {
 	
+	UserInfo userInfo;
 	ReservationInfo tempReser;
 	JLabel destinationLabel;
 	JLabel dateLabel;
 	
 	public FlightList() { }
 	
-	public FlightList(ReservationInfo tempReser) {
+	public FlightList(UserInfo userInfo, ReservationInfo tempReser) {
 		
+		this.userInfo = userInfo;
 		this.tempReser = tempReser;
 		String date = tempReser.getDate();
 		String destination = tempReser.getDestination();
@@ -58,20 +60,14 @@ public class FlightList {
         
       //메뉴바
         JMenuBar jmb = new JMenuBar();
-        JMenuItem jm1 = new JMenuItem("예매내역");
-        JMenuItem jm2 = new JMenuItem("로그아웃");
+        JMenuItem reser = new JMenuItem("예매내역");
+        JMenuItem logout = new JMenuItem("로그아웃");
         jmb.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
         
-        jmb.add(jm1);
-        jmb.add(jm2);
+        jmb.add(reser);
+        jmb.add(logout);
         
-        jm2.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
+        
         
         //출발지 도착지 날짜 정보 패널
         JPanel infoPanel = new JPanel();
@@ -79,42 +75,38 @@ public class FlightList {
         JLabel lb1 = new JLabel("인천"); 
         
         destinationLabel = new JLabel("도착지 : " + destination);
-        dateLabel = new JLabel("날짜 : " + date);
-//        JLabel destiLb = new JLabel("도착지");
-//        JLabel lb2 = new JLabel(destination);
-//        JLabel timeLb = new JLabel("날짜");
-//        JLabel lb3 = new JLabel(date);
+        dateLabel = new JLabel("날짜 : " + date + "확인용 : " + userInfo.getName() + userInfo.getNumber());
         
         infoPanel.add(departLb);
         infoPanel.add(lb1);
         infoPanel.add(destinationLabel);
-//        infoPanel.add(lb2);
         infoPanel.add(dateLabel);
-//        infoPanel.add(lb3);
         f.add(infoPanel, BorderLayout.NORTH);
         
                 
       //항공명 
         
         
-        String[] title = {"항공사명", "출발시간", "도착시간", "소요시간",};  
+        String[] title = {"항공사명", "항공명",  "출발시간", "도착시간", "소요시간",};  
         String[][] data = {
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"아시아나", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어", "06:45", "09:20", "직항, 02시간 35분",}
-        };
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"실험","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+           };
         
         
         DefaultTableModel model = new DefaultTableModel(data, title);
@@ -142,6 +134,15 @@ public class FlightList {
                             rowData += table.getValueAt(row, i) + " "; // 각 열의 데이터를 연결
                         }
                         JOptionPane.showMessageDialog(table, "구매 정보: " + rowData);
+                        
+                        // 항공사, 항공명 정보 ReservationInfo에 저장하기
+                        tempReser.setAirline(data[row][0]);
+                        tempReser.setAirplane(data[row][1]);
+                        
+                        
+                        new Seat(userInfo, tempReser);
+                		f.setVisible(false);
+                        
                     } else if (option == JOptionPane.NO_OPTION) {
                         // "아니오"를 클릭한 경우
                         JOptionPane.showMessageDialog(table, "구매가 취소되었습니다.");
@@ -167,26 +168,37 @@ public class FlightList {
         for(int i = 0; i < tcm.getColumnCount(); i++) {
         	tcm.getColumn(i).setCellRenderer(dtcr);
         }
-       
-        
-        
         
         f.setJMenuBar(jmb);
         f.add(jp, BorderLayout.CENTER);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(1600,800);
         f.setVisible(true);
+        
+        // 예매내역 버튼 클릭 시 예매내역 페이지로 이동
+        reser.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		// 예매내역 창 호출
+				new ReservationDetails(userInfo);
+        		f.setVisible(false);
+        	}
+        });
+        
+        // 로그아웃 버튼 클릭 시 로그아웃 되고 로그인 페이지로 이동
+        logout.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		// 로그인 창 호출
+        		logout();
+        		new LoginForm();
+        		f.setVisible(false);
+        	}
+        });
+
 	}
 	
-    public ReservationInfo getReservationInfo() {
-        return tempReser;
-    }
-	
-	
-//	public static void main(String[] args) {
-//       
-//        
-//        FlightList flightList = new FlightList();
-//
-//    }
+	public void logout() {
+		userInfo = null;
+	}
 }

@@ -91,6 +91,7 @@ public class ReservationDetails {
 		
 		JLabel uAirline = new JLabel(userInfo.getAirline());
 		uAirline.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
+		uAirline.setPreferredSize(new Dimension(200, 40));
 		
 		JLabel uAirplane = new JLabel(userInfo.getAirplane());
 		uAirline.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
@@ -108,7 +109,6 @@ public class ReservationDetails {
 		
 		JLabel uDestInfo = new JLabel(userInfo.getDestination());
 		uDestInfo.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
-		uDestInfo.setPreferredSize(new Dimension(200, 40));
 		
 		JLabel rGo = new JLabel("가는 날");
 		rGo.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
@@ -119,6 +119,7 @@ public class ReservationDetails {
 		
 		JLabel uGo = new JLabel(userInfo.getDate());
 		uGo.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
+		uGo.setPreferredSize(new Dimension(200, 40));
 		
 		JLabel uPeople = new JLabel(userInfo.getPeople() + "명");
 		uPeople.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
@@ -181,7 +182,7 @@ public class ReservationDetails {
 			public void actionPerformed(ActionEvent e) {
 				// 로그인 창 호출
 				logout();
-				// new ();
+				new LoginForm();
 				f.setVisible(false);
 			}
 			
@@ -203,7 +204,7 @@ public class ReservationDetails {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 메인화면 - 항공권 조회 화면
-				new ReservationPanel1();
+				new ReservationPanel(userInfo);
 				f.setVisible(false);
 			}
 			
@@ -215,12 +216,6 @@ public class ReservationDetails {
 	public void logout() {
 		userInfo = null;
 	}
-	
-	public static void main(String[] args) {
-		
-		ReservationDetails rd = new ReservationDetails();
-		
-	}
-	
+
 	
 }

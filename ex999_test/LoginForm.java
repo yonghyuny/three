@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import test.Join1;
+//import test.Join1;
 
 class MembershipChecker {
 	
@@ -233,13 +233,19 @@ public class LoginForm extends JFrame {
 				        String storedPassword = getPasswordForId(idTf.getText()); // member.txt 파일에서 해당 아이디의 비밀번호 가져오기
 				        if (storedPassword != null && MembershipChecker.isPasswordCorrect(enteredPassword, storedPassword)) {
 				        	
+				        	// id가 일치하는 유저 정보 가져오기
+//				        	UserInfo userInfo = new UserInfo(idTf.getText());
+				        	UserInfo userInfo = new UserInfo("abc", "abc", "01011111111");
+				        	
+				        	
+				        	
 				            // 입력한 비밀번호가 member.txt에 존재하는 해싱 비밀번호와 일치할 때
 				            JOptionPane.showMessageDialog(null, "로그인 성공!");
 				            setVisible(false);
 				            idTf.setText("");
 				            pwPf.setText("");
 				            // !! ReservationPanel 화면으로 넘어가는 코드를 여기에 추가 !!
-				            new ReservationPanel1();
+				            new ReservationPanel(userInfo);
 //				            ReservationPanel.setVisible(true);
 				            
 				            
