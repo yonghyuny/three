@@ -35,7 +35,7 @@ public class ReservationDetails {
 	 *
 	 * */
 
-	JMenuBar jpBar;
+	JMenuBar jMenu;
 	JPanel jpCon;
 	JPanel jpCheck;
 	
@@ -48,13 +48,13 @@ public class ReservationDetails {
 		
 		this.userInfo = userInfo;
 		
-		// 상단 바 - 로그아웃
-		jpBar = new JMenuBar ();
-		jpBar.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-		JButton logout = new JButton("로그아웃");
-		logout.setPreferredSize(new Dimension(100, 35));
+		// 상단 바 - 예매내역, 로그아웃
+		jMenu = new JMenuBar ();
 
-		jpBar.add(logout);
+    	JMenuItem logout = new JMenuItem("로그아웃");
+    	jMenu.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
+    	
+    	jMenu.add(logout);
 		
 		// 예매내역
 		jpCon = new JPanel();
@@ -168,7 +168,7 @@ public class ReservationDetails {
 		jpCheck.add(main);
 		
 		JFrame f = new JFrame();
-		f.setJMenuBar(jpBar);
+		f.setJMenuBar(jMenu);
 		f.add(jpCon, BorderLayout.CENTER);
 		f.add(jpCheck, BorderLayout.SOUTH);
 		f.setSize(1400,800);
