@@ -1,96 +1,83 @@
 package ex999_test;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
 public class Seat extends JFrame{
-	private JComboBox<String> seatClass;
-	private String price = null;
-	private JLabel seatPriceCont;
-	private String seatPrice;
-	private JMenuBar jmenu;
-	private static LoginForm loginForm;
 	
+	JComboBox<String> seatClass;
+	JLabel seatPriceCont;
+	JButton bookingBtn;
 	UserInfo userInfo;
 	ReservationInfo tempReser;
+	String[] selectedSeatsInfo;
+	JMenuBar jmenu;
+	int totalPrice;
 	
-	public Seat () { }
-	
+	public Seat () { }   
     
-    public Seat(LoginForm loginForm) {
-    	this.loginForm = loginForm;
-//		menuBar();
-//      flightSeat();
-//      showFrame();
-        
-    }    
-    
-    public Seat(UserInfo userInfo, ReservationInfo tempReser) {
-    	
+    public Seat(UserInfo userInfo, ReservationInfo tempReser) {	
     	this.userInfo = userInfo;
     	this.tempReser = tempReser;
     	
     	menuBar();
         flightSeat();
         showFrame();
+    
 	}
 
 
-    private void menuBar() {
-		// 상단 메뉴바
+    // 상단 메뉴바
+    public void menuBar() {
     	jmenu = new JMenuBar();
     	JMenuItem reser = new JMenuItem("예매내역");
     	JMenuItem logout = new JMenuItem("로그아웃");
     	jmenu.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
     	
         jmenu.add(reser);
-        jmenu.add(logout);
-        
-//        // 예매내역 버튼 클릭 시 예매내역 페이지로 이동
-//        reser.addActionListener(new ActionListener() {
-//        	@Override
-//        	public void actionPerformed(ActionEvent e) {
-//        		// 예매내역 창 호출
-//			new ReservationDetails(userInfo);
-//        		f.setVisible(false);
-//        	}
-//        });
-//        
-//        
-//        // 로그아웃 버튼 클릭 시 로그아웃 되고 로그인 페이지로 이동
-//        logout.addActionListener(new ActionListener() {
-//        	@Override
-//        	public void actionPerformed(ActionEvent e) {
-//        		// 로그인 창 호출
-//        		logout();
-//        		new LoginForm();
-//        		f.setVisible(false);
-//        	}
-//        });
+        jmenu.add(logout);  	
 
-    	
+        // 로그아웃 메뉴 아이템에 대한 이벤트 리스너 추가
+        logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 로그아웃 시 LoginForm으로 이동
+				new Logout(userInfo);
+				new LoginForm();
+                setVisible(false); // 현재 화면 숨기기
+            }
+        });
+        
+        // 예매내역 메뉴 아이템에 대한 이벤트 리스너 추가
+        reser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	// 예매내역 화면으로 이동
+                ReservationDetails reservationDetails = new ReservationDetails(userInfo);
+                setVisible(false); // 현재 화면 숨기기
+            }
+        });
 
 	}
 
@@ -136,12 +123,13 @@ public class Seat extends JFrame{
         int gapIncrement = 40; // 오른쪽 여백 증가량
         int gapAccumulator = 0; // 여백 누적값 초기화
                 
-        JButton[][] seatBtn = new JButton[10][10];
+        JCheckBox[][] seatBtn = new JCheckBox[10][10];
+		ArrayList<String> selectedSeats = new ArrayList<>();  // 선택한 좌석들을 저장할 리스트 생성
         
         for (int i = 0; i < 10; i++ ) {
         	for (int j = 1; j <= 9; j++) {
         		
-        		JButton button = new JButton(""+(char)('A'+i)+(j+1));
+        		JCheckBox button = new JCheckBox(""+(char)('A'+i)+(j+1));
         		button.setBackground(Color.white);
         		
         		// 버튼 크기 고정
@@ -161,28 +149,61 @@ public class Seat extends JFrame{
         		
         		pnl.add(button);
         		seatBtn[i][j] = button;
+
         		
 
         		// 선택한 버튼의 좌석이름, 가격 정보 출력하기 
         		button.addActionListener(new ActionListener() {
         			@Override
-        			public void actionPerformed(ActionEvent e) {
+        			public void actionPerformed(ActionEvent e) {        				
+
         				// 선택한 좌석번호
-        				String selectedSeatText = button.getText();
-        				selectedSeatCont.setText(selectedSeatText);
-        				
-        				// 선택한 좌석의 가격 설정
-        				if (selectedSeatText.charAt(0) >= 'A' && selectedSeatText.charAt(0) <= 'B') {
-        		            seatPrice = "120,000원"; // 1~2번째 줄
-        		        } else if (selectedSeatText.charAt(0) >= 'C' && selectedSeatText.charAt(0) <= 'E') {
-        		            seatPrice = "80,000원"; // 3~5번째 줄
-        		        } else {
-        		            seatPrice = "50,000원"; // 6~10번째 줄
+        				String selectedSeatText = button.getText();	
+        
+        		        // 선택한 좌석 번호를 리스트에 담기
+        		        selectedSeats.add(selectedSeatText);
+
+        		        
+        		        // 선택한 좌석 정보를 배열에 담아 출력
+        		        selectedSeatsInfo = selectedSeats.toArray(new String[selectedSeats.size()]);
+        		        if (selectedSeatsInfo[0] != null) {
+        		        	selectedSeatCont.setText(Arrays.toString(selectedSeatsInfo));
         		        }
+        		        
+        		        // 배열이 다 채워져야 예매하기 버튼 활성화
+        		        if (selectedSeatsInfo.length == tempReser.getCountPeople() && selectedSeatsInfo[tempReser.getCountPeople() - 1] != null) {
+        		            bookingBtn.setEnabled(true);
+        		        } else {
+        		            bookingBtn.setEnabled(false);
+        		        }
+        		        
+        		        // 최대 인원 초과 처리
+        		        if (selectedSeats.size() > tempReser.getCountPeople()) {
+        		        	// 팝업 창 표시
+        		            JOptionPane.showMessageDialog(null, "인원을 초과하였습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+        		            // 마지막에 추가된 좌석번호 삭제
+        		            selectedSeats.remove(selectedSeatText);
+        		            selectedSeatsInfo = selectedSeats.toArray(new String[selectedSeats.size()]);
+        		            selectedSeatCont.setText(Arrays.toString(selectedSeatsInfo));
+        		            // 버튼 비활성화
+        		            button.setEnabled(false);
+        		            
+        		        } else {
+        		            // 선택한 좌석의 가격 누적
+        		            if (selectedSeatText.charAt(0) >= 'A' && selectedSeatText.charAt(0) <= 'B') {
+        		                totalPrice += 120000; // 1~2번째 줄
+        		            } else if (selectedSeatText.charAt(0) >= 'C' && selectedSeatText.charAt(0) <= 'E') {
+        		                totalPrice += 80000; // 3~5번째 줄
+        		            } else {
+        		                totalPrice += 50000; // 6~10번째 줄
+        		            }
+        		        }
+
         		        // 좌석 가격 업데이트
-        		        seatPriceCont.setText(seatPrice);
-        				
-        			}
+        		        seatPriceCont.setText(totalPrice + "원");
+        		        
+        		    }
+        			
         		});
       		
         	}
@@ -212,6 +233,9 @@ public class Seat extends JFrame{
 				// 등급 선택시 선택한 좌석정보 초기화
 		        seatPriceCont.setText("");
 		        selectedSeatCont.setText("");
+		        
+		        // 좌석 담는 리스트 초기화
+		        selectedSeatsInfo = new String[selectedSeatsInfo.length];
 				
 				// 비활성화 누적방지 전체 버튼 활성화
 				for (int i=0; i<10; i++) {
@@ -228,7 +252,6 @@ public class Seat extends JFrame{
 							seatBtn[i][j].setEnabled(false);
 						}			
 					}
-					seatPrice = "50,000원";
 					
 				} else if(seatValue.equals(title[2])) {				
 					// 비즈니스를 선택했을 때
@@ -243,7 +266,6 @@ public class Seat extends JFrame{
 		                    seatBtn[i][j].setEnabled(false);
 		                }
 		            }
-					seatPrice = "80,000원";
 
 					
 				} else if(seatValue.equals(title[3])) {
@@ -254,7 +276,6 @@ public class Seat extends JFrame{
 		                    seatBtn[i][j].setEnabled(false);
 		                }
 		            }
-					seatPrice = "120,000원";
 				}
 					
 			}				
@@ -270,32 +291,27 @@ public class Seat extends JFrame{
         selectedSeat.setFont(new Font("Arial", Font.BOLD, 22));
         getContentPane().add(selectedSeat);
         
-        // ReservationPanel 에서 선택한 인원 출력 텍스트 라벨
-//        peopleNum = ReservationPanel1.peopleNum;
-//        peopleNum = ReservationPanel.countPeople;
         
+        // ReservationPanel 에서 선택한 인원 출력 텍스트 라벨        
         JLabel selectedNum = new JLabel("인원 : "+tempReser.getCountPeople());        
         selectedNum.setBounds(1125,560,150,30);
         selectedNum.setFont(new Font("Arial", Font.PLAIN, 18));
         getContentPane().add(selectedNum);
 
         
-        
-        
-
-        
         // 좌석 가격 출력 label
-        seatPriceCont = new JLabel(seatPrice);
+        seatPriceCont = new JLabel(totalPrice+"");
         seatPriceCont.setBounds(1250,580,150,40);
         seatPriceCont.setFont(new Font("Arial", Font.BOLD, 18));
         seatPriceCont.setForeground(Color.BLUE);
         getContentPane().add(seatPriceCont);   
         
 		// 예매하기 버튼 
-        JButton bookingBtn = new JButton("예매하기");
+        bookingBtn = new JButton("예매하기");
         bookingBtn.setBounds(1124,640,200,60);
         bookingBtn.setFont(new Font("Arial", Font.BOLD, 18));
         getContentPane().add(bookingBtn);
+        
 		
         bookingBtn.addActionListener(new ActionListener() {
 			
@@ -311,23 +327,19 @@ public class Seat extends JFrame{
 				// 예약 정보 텍스트 파일로 저장
 				saveMemberReservationToFile(userInfo);
 
+				// 예매내역확인 화면으로 이동
 				new ReservationDetails(userInfo);
 				
 				// 현재 화면 숨기기
 				setVisible(false);
 				
-				// !! 예매내역확인 화면으로 이동 !!
-				// 	객체 생성
-				//	객체.setVisible(ture);
-				
 			}
 		});
+        
 		
 		// 최종 패널 붙이기
         getContentPane().add(pnl);
         setVisible(true);
-        
-        
         
     }
 	
@@ -353,13 +365,5 @@ public class Seat extends JFrame{
         }
     }
     
-	public void logout() {
-		userInfo = null;
-	}
-    
-    
-    public static void main(String[] args) {
-    	LoginForm loginForm = new LoginForm();    	
-        Seat seat = new Seat(loginForm);
-    }
+
 }

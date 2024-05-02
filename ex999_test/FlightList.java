@@ -2,24 +2,14 @@ package ex999_test;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -28,19 +18,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 
-public class FlightList {
+
+public class FlightList extends JFrame{
 	
 	UserInfo userInfo;
 	ReservationInfo tempReser;
 	JLabel destinationLabel;
 	JLabel dateLabel;
+	JPanel jp;
+	
+	String date;
+	String destination;
+	
+	JMenuBar jMenu;
 	
 	public FlightList() { }
 	
@@ -48,61 +43,91 @@ public class FlightList {
 		
 		this.userInfo = userInfo;
 		this.tempReser = tempReser;
-		String date = tempReser.getDate();
-		String destination = tempReser.getDestination();
-		
-		JFrame f = new JFrame("항공권 리스트"); // 제목
-        f.setLayout(new BorderLayout());
+		date = tempReser.getDate();
+		destination = tempReser.getDestination();
         
+        //상단 메뉴바
+        menuBar();
         
-      //메뉴바
-        JMenuBar jmb = new JMenuBar();
-        JMenuItem reser = new JMenuItem("예매내역");
-        JMenuItem logout = new JMenuItem("로그아웃");
-        jmb.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
+        // 항공 리스트
+        fligtList ();
         
-        jmb.add(reser);
-        jmb.add(logout);
+        showFrame();
+
+	}
+	
+    // 상단 메뉴바
+    public void menuBar() {
+    	jMenu = new JMenuBar();
+    	JMenuItem reser = new JMenuItem("예매내역");
+    	JMenuItem logout = new JMenuItem("로그아웃");
+    	jMenu.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
+    	
+    	jMenu.add(reser);
+    	jMenu.add(logout);  	
+
+        // 로그아웃 메뉴 아이템에 대한 이벤트 리스너 추가
+        logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 로그아웃 시 LoginForm으로 이동
+				new Logout(userInfo);
+				new LoginForm();
+                setVisible(false); // 현재 화면 숨기기
+            }
+        });
         
-        
-        
-        //출발지 도착지 날짜 정보 패널
+        // 예매내역 메뉴 아이템에 대한 이벤트 리스너 추가
+        reser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	// 예매내역 화면으로 이동
+                new ReservationDetails(userInfo);
+                setVisible(false); // 현재 화면 숨기기
+            }
+        });
+    }
+    
+    public void fligtList () {
+    	//출발지 도착지 날짜 정보 패널
         JPanel infoPanel = new JPanel();
         JLabel departLb = new JLabel("출발지");
         JLabel lb1 = new JLabel("인천"); 
         
         destinationLabel = new JLabel("도착지 : " + destination);
-        dateLabel = new JLabel("날짜 : " + date + "확인용 : " + userInfo.getName() + userInfo.getNumber());
+        dateLabel = new JLabel("날짜 : " + date);
+        
+        departLb.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+        lb1.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+        destinationLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+        dateLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
         
         infoPanel.add(departLb);
         infoPanel.add(lb1);
         infoPanel.add(destinationLabel);
         infoPanel.add(dateLabel);
-        f.add(infoPanel, BorderLayout.NORTH);
+        add(infoPanel, BorderLayout.NORTH);
         
                 
-      //항공명 
-        
-        
+        //항공명 
         String[] title = {"항공사명", "항공명",  "출발시간", "도착시간", "소요시간",};  
         String[][] data = {
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"실험","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
-            {"진에어","KAL-91", "06:45", "09:20", "직항, 02시간 35분",},
+            {"진에어", "JIN058" ,"06:45", "09:20", "직항,02시간35분"},
+            {"이스타항공", "JIN058" ,"07:05", "09:50", "직항,02시간45분"},
+            {"진에어", "JIN871" ,"07:25", "10:00", "직항,02시간35분"},
+            {"티웨이항공", "TWA873" ,"07:45", "10:15", "직항,02시간30분"},
+            {"에어서울", "SEO037" ,"07:50", "10:30", "직항,02시간40분"},
+            {"아시아나항공", "ANA758" ,"09:00", "11:20", "직항,02시간20분"},
+            {"진에어", "JIN657" ,"09:45", "12:15", "직항,02시간30분"},
+            {"이스타항공", "EST187" ,"15:10", "17:30", "직항,02시간20분"},
+            {"에어부산", "BS848" ,"15:50", "18:10", "직항,02시간20분"},
+            {"대한항공", "KAL123" ,"16:25", "18:45", "직항,02시간20분"},
+            {"대한항공", "KAL418" ,"16:45", "19:15", "직항,02시간30분"},
+            {"이스타항공", "EST157" ,"17:25", "19:45", "직항,02시간20분"},
+            {"티웨이항공", "TWA788" ,"18:35", "21:05", "직항,02시간30분"},
+            {"에어서울", "SEO205" ,"20:30", "22:50", "직항,02시간35분"},
+            {"에어부산", "BS177" ,"21:35", "23:55", "직항,02시간20분"},
+            
            };
         
         
@@ -111,7 +136,7 @@ public class FlightList {
         table.setRowHeight(50);
         
         
-        JPanel jp = new JPanel(new BorderLayout());
+        jp = new JPanel(new BorderLayout());
         jp.add(Box.createHorizontalStrut(200), BorderLayout.EAST);
         jp.add(Box.createHorizontalStrut(200), BorderLayout.WEST);
         
@@ -138,7 +163,7 @@ public class FlightList {
                         
                         
                         new Seat(userInfo, tempReser);
-                		f.setVisible(false);
+                		setVisible(false);
                         
                     } else if (option == JOptionPane.NO_OPTION) {
                         // "아니오"를 클릭한 경우
@@ -166,36 +191,14 @@ public class FlightList {
         	tcm.getColumn(i).setCellRenderer(dtcr);
         }
         
-        f.setJMenuBar(jmb);
-        f.add(jp, BorderLayout.CENTER);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(1600,800);
-        f.setVisible(true);
-        
-        // 예매내역 버튼 클릭 시 예매내역 페이지로 이동
-        reser.addActionListener(new ActionListener() {
-        	@Override
-        	public void actionPerformed(ActionEvent e) {
-        		// 예매내역 창 호출
-				new ReservationDetails(userInfo);
-        		f.setVisible(false);
-        	}
-        });
-        
-        // 로그아웃 버튼 클릭 시 로그아웃 되고 로그인 페이지로 이동
-        logout.addActionListener(new ActionListener() {
-        	@Override
-        	public void actionPerformed(ActionEvent e) {
-        		// 로그인 창 호출
-        		logout();
-        		new LoginForm();
-        		f.setVisible(false);
-        	}
-        });
-
-	}
-	
-	public void logout() {
-		userInfo = null;
-	}
+    }
+    
+    public void showFrame () {
+        setJMenuBar(jMenu);
+        add(jp, BorderLayout.CENTER);
+		setLocation(getX( )+ 250, getY() + 110);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1600,800);
+        setVisible(true);
+    }
 }

@@ -8,6 +8,7 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@SuppressWarnings("serial")
 public class Join extends JFrame {
 
     private JTextField nameTf; // 이름 입력 필드

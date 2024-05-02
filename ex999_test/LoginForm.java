@@ -1,12 +1,10 @@
 package ex999_test;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -19,13 +17,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 
@@ -70,6 +65,7 @@ class MembershipChecker {
 	
 }
 
+@SuppressWarnings("serial")
 public class LoginForm extends JFrame {
 	
 
@@ -106,8 +102,6 @@ public class LoginForm extends JFrame {
     private JButton btnJoin;
     private ImageIcon logoImg;
     private JLabel logoLb;
-	private JMenuBar jmenu;
-	
 	UserInfo userInfo;
 	
     
