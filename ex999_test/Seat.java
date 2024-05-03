@@ -23,7 +23,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
+@SuppressWarnings("serial")
 public class Seat extends JFrame{
 	
 	JComboBox<String> seatClass;
@@ -74,7 +74,6 @@ public class Seat extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
             	// 예매내역 화면으로 이동
-                ReservationDetails reservationDetails = new ReservationDetails(userInfo);
                 setVisible(false); // 현재 화면 숨기기
             }
         });
