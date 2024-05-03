@@ -1,5 +1,6 @@
 package ex999_test;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,7 +9,6 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-@SuppressWarnings("serial")
 public class Join extends JFrame {
 
     private JTextField nameTf; // 이름 입력 필드
@@ -16,26 +16,30 @@ public class Join extends JFrame {
     private JPasswordField passwordPf; // 비밀번호 입력 필드
     private JComboBox<String> phoneCb;
     private JTextField phoneTf;
+    private JButton registerBtn;
     private JButton cancelBtn;	// 취소 버튼
     private LoginForm loginForm;	// 로그인 화면으로 넘어가기 위한 인스턴스 변수
-    
+
     public Join(LoginForm loginForm) {
     	this.loginForm = loginForm;
         initComponents();
+
         showFrame();
     }
 
     private void initComponents() {
         // 컴포넌트 초기화 및 생성
         JPanel jpMain = new JPanel();
-        jpMain.setLayout(new BoxLayout(jpMain, BoxLayout.Y_AXIS)); // 수직으로 정렬하기 위해 Y_AXIS 사용
-
+        
         JPanel jpId = new JPanel();
         JPanel jpPw = new JPanel();
         JPanel jpName = new JPanel();
         JPanel jpPhone = new JPanel();
         JPanel totalBtn = new JPanel();
 
+        JLabel titleLb = new JLabel("회원가입");
+        titleLb.setFont(new Font ("맑은 고딕", Font.BOLD, 30));	
+        
         JLabel nameLb = new JLabel("이름: ");
         nameLb.setPreferredSize(new Dimension(80, 20)); // 라벨의 크기 설정
         nameTf = new JTextField(20); // 이름 입력 필드 초기화
@@ -54,10 +58,9 @@ public class Join extends JFrame {
         phoneCb = new JComboBox<String>(phone);
         phoneTf = new JTextField(15); // 전화번호 입력 필드 초기화
         
+//        registerBtn = new JButton("가입하기");
+//        cancelBtn = new JButton("취소");
 
-        JButton registerBtn = new JButton("가입하기");
-        cancelBtn = new JButton("취소");
-        //아이디 패널에 라벨 텍스트필드 붙히기
         jpId.add(idLb);
         jpId.add(idTf);
 
@@ -71,29 +74,35 @@ public class Join extends JFrame {
         jpPhone.add(phoneCb);
         jpPhone.add(phoneTf);
         
+        registerBtn = new JButton("가입하기");
+        cancelBtn = new JButton("취소");
 
         totalBtn.add(registerBtn);
         totalBtn.add(cancelBtn);
-
-        jpMain.add(Box.createVerticalGlue()); // 상단에 공간 추가
-        jpMain.add(Box.createVerticalGlue());
-        jpMain.add(Box.createVerticalGlue());
+        
+        
+        jpMain.add(titleLb);
+        jpMain.add(Box.createVerticalStrut(70)); // 상단에 공간 추가
         jpMain.add(jpName);
         jpMain.add(jpId);
         jpMain.add(jpPw);
         jpMain.add(jpPhone);
-        jpMain.add(Box.createVerticalGlue());// 하단에 공간 추가
-        jpMain.add(Box.createVerticalGlue());
-        jpMain.add(Box.createVerticalGlue());
-       
+        jpMain.add(Box.createVerticalStrut(20));// 하단에 공간 추가
+        
+
         jpMain.add(totalBtn);
-        //프레임에 패널 붙히기
+        
+        jpMain.setLayout(new BoxLayout(jpMain, BoxLayout.Y_AXIS)); // 수직으로 정렬하기 위해 Y_AXIS 사용
+       
+        registerBtn.addActionListener(btnAl);
+        cancelBtn.addActionListener(btnAl);
+        
         add(jpMain);
     }
-    
+
     private void showFrame() {
         setTitle("회원 가입");
-        setSize(400, 400);
+        setSize(600, 600);
         setLocationRelativeTo(null); // 화면 중앙에 위치
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -108,7 +117,6 @@ public class Join extends JFrame {
             String phoneNumber = phoneCb.getSelectedItem().toString() + phoneTf.getText();
            
             switch (e.getActionCommand()) {
-            //가입하기 기능 추가
                 case "가입하기":
                     if (!isValidInput(name, id, password)) {
                         JOptionPane.showMessageDialog(null, "입력이 유효하지 않습니다!");
@@ -125,11 +133,10 @@ public class Join extends JFrame {
                     setVisible(false);
                     loginForm.setVisible(true);
                     break;
-                    
-                 // 취소 버튼 동작 추가
                 case "취소":
-                	setVisible(false);
-                	loginForm.setVisible(true);
+                    // 취소 버튼 동작 추가
+                	 setVisible(false); // Join 화면 숨기기
+                   loginForm.setVisible(true); // LoginForm 화면 보이기
                     break;
             }
         }
@@ -140,6 +147,8 @@ public class Join extends JFrame {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("members.txt", true))) {
             bw.write(member.toString());
             bw.newLine();
+            
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -171,9 +180,10 @@ public class Join extends JFrame {
         }
         return true;
     }
-
+    
+    //비밀번호 암호화
     private static String hashPassword(String password) {
-        // 비밀번호 해싱
+        
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hash = md.digest(password.getBytes());
@@ -189,5 +199,4 @@ public class Join extends JFrame {
     }
 
 }
-
         
