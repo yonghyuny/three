@@ -18,11 +18,14 @@ public class Join extends JFrame {
     private JTextField phoneTf;
     private JButton cancelBtn;	// 취소 버튼
     private LoginForm loginForm;	// 로그인 화면으로 넘어가기 위한 인스턴스 변수
-
+    private ImageIcon logoImg;
+    private JLabel logoLb;
+    
+    
+    
     public Join(LoginForm loginForm) {
     	this.loginForm = loginForm;
         initComponents();
-        setLayoutAndListeners();
         showFrame();
     }
 
@@ -100,19 +103,6 @@ public class Join extends JFrame {
         add(jpMain);
     }
 
-    private void setLayoutAndListeners() {
-        // 레이아웃 설정 및 리스너 등록
-    	
-    	// 취소버튼 클릭시 로그인 화면으로 이동
-    	cancelBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // cancelBtn 클릭 시 LoginForm 화면으로 이동
-                setVisible(false); // Join2 화면 숨기기
-                loginForm.setVisible(true); // LoginForm 화면 보이기
-            }
-        });
-    }
 
     private void showFrame() {
         setTitle("회원 가입");
@@ -131,6 +121,7 @@ public class Join extends JFrame {
             String phoneNumber = phoneCb.getSelectedItem().toString() + phoneTf.getText();
            
             switch (e.getActionCommand()) {
+            //가입하기 기능 추가
                 case "가입하기":
                     if (!isValidInput(name, id, password)) {
                         JOptionPane.showMessageDialog(null, "입력이 유효하지 않습니다!");
@@ -147,8 +138,12 @@ public class Join extends JFrame {
                     setVisible(false);
                     loginForm.setVisible(true);
                     break;
+                    
+                 // 취소 버튼 동작 추가
                 case "취소":
-                    // 취소 버튼 동작 추가
+                	setVisible(false);
+                	loginForm.setVisible(true);
+                    
                     break;
             }
         }
