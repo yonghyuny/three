@@ -33,7 +33,6 @@ public class Seat extends JFrame{
 	ReservationInfo tempReser;
 	String[] selectedSeatsInfo;
 	JMenuBar jmenu;
-//	JCheckBox button;
 	int totalPrice;
 	
 	public Seat () { }   
@@ -278,7 +277,7 @@ public class Seat extends JFrame{
 		seatClass.addActionListener(seatAl);   
 		
 		
-		// 선택한 좌석 정보 타이틀 텍스트 라벨
+	// 선택한 좌석 정보 타이틀 텍스트 라벨
         JLabel selectedSeat = new JLabel("선택한 좌석 정보");
         selectedSeat.setBounds(1125,500,150,40);
         selectedSeat.setFont(new Font("맑은 고딕", Font.BOLD, 22));
@@ -299,7 +298,7 @@ public class Seat extends JFrame{
         seatPriceCont.setForeground(Color.BLUE);
         getContentPane().add(seatPriceCont);   
         
-		// 예매하기 버튼 
+	// 예매하기 버튼 
         bookingBtn = new JButton("예매하기");
         bookingBtn.setBounds(1124,640,200,60);
         bookingBtn.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -360,8 +359,6 @@ public class Seat extends JFrame{
     
 	public void logout() {
 		userInfo = null;
-	}
-    
-    
+	}    
 
 }
