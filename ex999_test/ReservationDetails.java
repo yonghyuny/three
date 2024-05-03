@@ -113,6 +113,13 @@ public class ReservationDetails extends JFrame{
     			
     	JLabel rFlight = new JLabel("항공편");
     	rFlight.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
+    	
+    	// 항공사 로고 이미지 넣기
+    	ImageIcon airlineIcon = new ImageIcon(airlineImg(userInfo.getAirline()));
+    			
+    	JLabel rAirlineImg = new JLabel();
+    	rAirlineImg.setIcon(airlineIcon);
+    	rAirlineImg.setPreferredSize(new Dimension(30, 30));
     			
     	JLabel uAirline = new JLabel(userInfo.getAirline());
     	uAirline.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
@@ -155,6 +162,7 @@ public class ReservationDetails extends JFrame{
     	number.add(uNum);
     	airline.add(rAirline);
     	airline.add(rFlight);
+    	airlineInfo.add(rAirlineImg);
     	airlineInfo.add(uAirline);
     	airlineInfo.add(uAirplane);
     	startDest.add(rStart);
@@ -237,6 +245,30 @@ public class ReservationDetails extends JFrame{
     	});
     			
     }
+    
+ // 항공사 이미지 경로 찾기 		
+ 	public String airlineImg (String airline) {
+ 		String airlineName = "";
+ 		
+ 		if (airline.equals("진에어")) {
+ 			airlineName = "jinair";
+ 		} else if (airline.equals("이스타항공")) {
+ 			airlineName = "easta";
+ 		} else if (airline.equals("티웨이항공")) {
+ 			airlineName = "tway";
+ 		} else if (airline.equals("에어서울")) {
+ 			airlineName = "airseoul";
+ 		} else if (airline.equals("아시아나항공")) {
+ 			airlineName = "ana";
+ 		} else if (airline.equals("에어부산")) {
+ 			airlineName = "airbusan";
+ 		} else if (airline.equals("대한항공")) {
+ 			airlineName = "kal";
+ 		}
+ 		
+        return "logo/" + airlineName + ".png";
+
+ 	}
     
     public void showFrame () {
 		setJMenuBar(jMenu);
