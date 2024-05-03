@@ -1,4 +1,4 @@
-package ex999_test;
+package flight_booking;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -33,6 +33,7 @@ public class Seat extends JFrame{
 	ReservationInfo tempReser;
 	String[] selectedSeatsInfo;
 	JMenuBar jmenu;
+//	JCheckBox button;
 	int totalPrice;
 	
 	public Seat () { }   
@@ -63,8 +64,8 @@ public class Seat extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 로그아웃 시 LoginForm으로 이동
-				new Logout(userInfo);
-				new LoginForm();
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true);
                 setVisible(false); // 현재 화면 숨기기
             }
         });
@@ -81,7 +82,7 @@ public class Seat extends JFrame{
 
 	}
 
-     
+    // 좌석
     public void flightSeat() {   
         
         JPanel pnl = new JPanel();
@@ -102,14 +103,14 @@ public class Seat extends JFrame{
         lblNewLabel.setOpaque(true);
         lblNewLabel.setBackground(Color.LIGHT_GRAY);
         getContentPane().add(lblNewLabel);
-        lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        lblNewLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
         lblNewLabel.setForeground(Color.white);
         
         
         // 좌석 정보 출력 label
         JLabel selectedSeatCont = new JLabel();
         selectedSeatCont.setBounds(1128,580,150,40);
-        selectedSeatCont.setFont(new Font("Arial", Font.PLAIN, 18));
+        selectedSeatCont.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
         selectedSeatCont.setForeground(Color.BLUE);
         getContentPane().add(selectedSeatCont);     
 
@@ -130,7 +131,6 @@ public class Seat extends JFrame{
         	for (int j = 1; j <= 9; j++) {
         		
         		JCheckBox button = new JCheckBox(""+(char)('A'+i)+(j+1));
-        		button.setBackground(Color.white);
         		
         		// 버튼 크기 고정
         		button.setSize(buttonWidth, buttonHeight);
@@ -149,8 +149,7 @@ public class Seat extends JFrame{
         		
         		pnl.add(button);
         		seatBtn[i][j] = button;
-
-        		
+ 		
 
         		// 선택한 버튼의 좌석이름, 가격 정보 출력하기 
         		button.addActionListener(new ActionListener() {
@@ -162,8 +161,8 @@ public class Seat extends JFrame{
         
         		        // 선택한 좌석 번호를 리스트에 담기
         		        selectedSeats.add(selectedSeatText);
-
-        		        
+        		         
+        
         		        // 선택한 좌석 정보를 배열에 담아 출력
         		        selectedSeatsInfo = selectedSeats.toArray(new String[selectedSeats.size()]);
         		        if (selectedSeatsInfo[0] != null) {
@@ -171,7 +170,7 @@ public class Seat extends JFrame{
         		        }
         		        
         		        // 배열이 다 채워져야 예매하기 버튼 활성화
-        		        if (selectedSeatsInfo.length == tempReser.getCountPeople() && selectedSeatsInfo[tempReser.getCountPeople() - 1] != null) {
+        		        if (selectedSeatsInfo.length >= tempReser.getCountPeople() && selectedSeatsInfo[tempReser.getCountPeople() - 1] != null) {
         		            bookingBtn.setEnabled(true);
         		        } else {
         		            bookingBtn.setEnabled(false);
@@ -185,8 +184,6 @@ public class Seat extends JFrame{
         		            selectedSeats.remove(selectedSeatText);
         		            selectedSeatsInfo = selectedSeats.toArray(new String[selectedSeats.size()]);
         		            selectedSeatCont.setText(Arrays.toString(selectedSeatsInfo));
-        		            // 버튼 비활성화
-        		            button.setEnabled(false);
         		            
         		        } else {
         		            // 선택한 좌석의 가격 누적
@@ -214,9 +211,9 @@ public class Seat extends JFrame{
         
         
         // 등급 선택 텍스트 라벨
-        JLabel selectClass = new JLabel("좌석 등급");
+        JLabel selectClass = new JLabel("좌석 등급"); 
         selectClass.setBounds(1125,200,150,40);
-        selectClass.setFont(new Font("Arial", Font.BOLD, 22));
+        selectClass.setFont(new Font("맑은 고딕", Font.BOLD, 22));
         getContentPane().add(selectClass); 
         
         // 등급 선택 콤보박스
@@ -232,10 +229,7 @@ public class Seat extends JFrame{
 				
 				// 등급 선택시 선택한 좌석정보 초기화
 		        seatPriceCont.setText("");
-		        selectedSeatCont.setText("");
-		        
-		        // 좌석 담는 리스트 초기화
-		        selectedSeatsInfo = new String[selectedSeatsInfo.length];
+		        selectedSeatCont.setText("");		        
 				
 				// 비활성화 누적방지 전체 버튼 활성화
 				for (int i=0; i<10; i++) {
@@ -266,11 +260,10 @@ public class Seat extends JFrame{
 		                    seatBtn[i][j].setEnabled(false);
 		                }
 		            }
-
 					
 				} else if(seatValue.equals(title[3])) {
 					// 퍼스트를 선택했을 때
-					// 3~10번째 줄 Button을 비활성화 시킨다.
+					// 3~10번째 줄 button을 비활성화 시킨다.
 					for (int i = 2; i < 10; i++) {
 		                for (int j = 1; j < 10; j++) {
 		                    seatBtn[i][j].setEnabled(false);
@@ -288,28 +281,28 @@ public class Seat extends JFrame{
 		// 선택한 좌석 정보 타이틀 텍스트 라벨
         JLabel selectedSeat = new JLabel("선택한 좌석 정보");
         selectedSeat.setBounds(1125,500,150,40);
-        selectedSeat.setFont(new Font("Arial", Font.BOLD, 22));
+        selectedSeat.setFont(new Font("맑은 고딕", Font.BOLD, 22));
         getContentPane().add(selectedSeat);
         
         
         // ReservationPanel 에서 선택한 인원 출력 텍스트 라벨        
         JLabel selectedNum = new JLabel("인원 : "+tempReser.getCountPeople());        
         selectedNum.setBounds(1125,560,150,30);
-        selectedNum.setFont(new Font("Arial", Font.PLAIN, 18));
+        selectedNum.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
         getContentPane().add(selectedNum);
 
         
         // 좌석 가격 출력 label
         seatPriceCont = new JLabel(totalPrice+"");
         seatPriceCont.setBounds(1250,580,150,40);
-        seatPriceCont.setFont(new Font("Arial", Font.BOLD, 18));
+        seatPriceCont.setFont(new Font("맑은 고딕", Font.BOLD, 18));
         seatPriceCont.setForeground(Color.BLUE);
         getContentPane().add(seatPriceCont);   
         
 		// 예매하기 버튼 
         bookingBtn = new JButton("예매하기");
         bookingBtn.setBounds(1124,640,200,60);
-        bookingBtn.setFont(new Font("Arial", Font.BOLD, 18));
+        bookingBtn.setFont(new Font("맑은 고딕", Font.BOLD, 18));
         getContentPane().add(bookingBtn);
         
 		
@@ -343,7 +336,7 @@ public class Seat extends JFrame{
         
     }
 	
-
+    // 최종 프레임 
     public void showFrame() {
         setTitle("좌석 선택");
         setSize(1400,800);
@@ -364,6 +357,11 @@ public class Seat extends JFrame{
             e.printStackTrace();
         }
     }
+    
+	public void logout() {
+		userInfo = null;
+	}
+    
     
 
 }
