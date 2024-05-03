@@ -52,26 +52,11 @@ public class Seat extends JFrame{
     public void menuBar() {
     	jmenu = new MenuBar();	
 
-        // 로그아웃 메뉴 아이템에 대한 이벤트 리스너 추가
-        (jmenu.logout).addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 로그아웃 시 LoginForm으로 이동
-				new Logout(userInfo);
-				new LoginForm();
-                setVisible(false); // 현재 화면 숨기기
-            }
-        });
+    	 // 로그아웃
+    	jmenu.logout.addActionListener(new LogoutActionListener(userInfo, this));
         
-        // 예매내역 메뉴 아이템에 대한 이벤트 리스너 추가
-        (jmenu.reser).addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	// 예매내역 화면으로 이동
-                new ReservationDetails(userInfo);
-                setVisible(false); // 현재 화면 숨기기
-            }
-        });
+    	// 예매내역
+    	jmenu.reser.addActionListener(new ReservationDetailsActionListener(userInfo, this));
 
 
 	}
