@@ -1,7 +1,6 @@
-package ex999_test;
+package ex999_0503;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -9,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.ImageIcon;
@@ -18,10 +16,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 @SuppressWarnings("serial")
 public class Seat extends JFrame{
@@ -34,6 +31,7 @@ public class Seat extends JFrame{
 	String[] selectedSeatsInfo;
 	MenuBar jmenu;
 	int totalPrice;
+	String[] selectedSeats;
 	
 	public Seat () { }   
     
@@ -50,14 +48,15 @@ public class Seat extends JFrame{
 
     // 상단 메뉴바
     public void menuBar() {
-    	jmenu = new MenuBar();	
-
-    	 // 로그아웃
+    	jmenu = new MenuBar();
+    	
+    	// 로그아웃
     	jmenu.logout.addActionListener(new LogoutActionListener(userInfo, this));
         
     	// 예매내역
     	jmenu.reser.addActionListener(new ReservationDetailsActionListener(userInfo, this));
 
+    	
 
 	}
 
@@ -104,7 +103,7 @@ public class Seat extends JFrame{
         int gapAccumulator = 0; // 여백 누적값 초기화
                 
         JCheckBox[][] seatBtn = new JCheckBox[10][10];
-		ArrayList<String> selectedSeats = new ArrayList<>();  // 선택한 좌석들을 저장할 리스트 생성
+		selectedSeats = new String[tempReser.getCountPeople()];  // 선택한 좌석들을 저장할 리스트 생성
         
         for (int i = 0; i < 10; i++ ) {
         	for (int j = 1; j <= 9; j++) {
@@ -138,13 +137,16 @@ public class Seat extends JFrame{
         				// 선택한 좌석번호
         				String selectedSeatText = button.getText();	
         
-        		        // 선택한 좌석 번호를 리스트에 담기
-        		        selectedSeats.add(selectedSeatText);
+        				for(int i=0; i<selectedSeats.length; i++) {
+        					// 선택한 좌석 번호를 리스트에 담기        					
+        					selectedSeats[i] = selectedSeatText;
+        					
+        					// 선택한 좌석 정보를 배열에 담아 출력
+        					selectedSeatsInfo[i] = selectedSeats[i];
+        				}
         		         
         
-        		        // 선택한 좌석 정보를 배열에 담아 출력
-        		        selectedSeatsInfo = selectedSeats.toArray(new String[selectedSeats.size()]);
-        		        if (selectedSeatsInfo[0] != null) {
+        		       if (selectedSeatsInfo[0] != null) {
         		        	selectedSeatCont.setText(Arrays.toString(selectedSeatsInfo));
         		        }
         		        
@@ -156,12 +158,12 @@ public class Seat extends JFrame{
         		        }
         		        
         		        // 최대 인원 초과 처리
-        		        if (selectedSeats.size() > tempReser.getCountPeople()) {
+        		        if (selectedSeats.length > tempReser.getCountPeople()) {
         		        	// 팝업 창 표시
         		            JOptionPane.showMessageDialog(null, "인원을 초과하였습니다.", "오류", JOptionPane.ERROR_MESSAGE);
         		            // 마지막에 추가된 좌석번호 삭제
-        		            selectedSeats.remove(selectedSeatText);
-        		            selectedSeatsInfo = selectedSeats.toArray(new String[selectedSeats.size()]);
+        		            selectedSeats[selectedSeats.length-1] = null;
+//        		            selectedSeatsInfo.length = selectedSeats.length;
         		            selectedSeatCont.setText(Arrays.toString(selectedSeatsInfo));
         		            
         		        } else {
@@ -206,9 +208,23 @@ public class Seat extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				String seatValue = (String)seatClass.getSelectedItem();
 				
-				// 등급 선택시 선택한 좌석정보 초기화
+				// 등급 선택시 선택한 좌석정보 초기화 >> ! 이전 선택 좌석정보 초기화 !
 		        seatPriceCont.setText("");
-		        selectedSeatCont.setText("");		        
+		        selectedSeatCont.setText("");
+		        selectedSeats = new String[tempReser.getCountPeople()];
+		        
+		        
+		        // 선택한 좌석 정보 새로운 배열에 저장
+		        for(int i=0; i<selectedSeats.length; i++) {
+		        	selectedSeats[i] = selectedSeatsInfo[i];
+		        }
+		        if (selectedSeatsInfo[0] != null) {
+		            selectedSeatCont.setText(Arrays.toString(selectedSeatsInfo));
+		            
+		        } else {
+		        	selectedSeatCont.setText("");
+		        }
+		        
 				
 				// 비활성화 누적방지 전체 버튼 활성화
 				for (int i=0; i<10; i++) {
@@ -257,7 +273,7 @@ public class Seat extends JFrame{
 		seatClass.addActionListener(seatAl);   
 		
 		
-	// 선택한 좌석 정보 타이틀 텍스트 라벨
+		// 선택한 좌석 정보 타이틀 텍스트 라벨
         JLabel selectedSeat = new JLabel("선택한 좌석 정보");
         selectedSeat.setBounds(1125,500,150,40);
         selectedSeat.setFont(new Font("맑은 고딕", Font.BOLD, 22));
@@ -278,7 +294,7 @@ public class Seat extends JFrame{
         seatPriceCont.setForeground(Color.BLUE);
         getContentPane().add(seatPriceCont);   
         
-	// 예매하기 버튼 
+		// 예매하기 버튼 
         bookingBtn = new JButton("예매하기");
         bookingBtn.setBounds(1124,640,200,60);
         bookingBtn.setFont(new Font("맑은 고딕", Font.BOLD, 18));
@@ -336,5 +352,7 @@ public class Seat extends JFrame{
             e.printStackTrace();
         }
     }
+    
+
 
 }
