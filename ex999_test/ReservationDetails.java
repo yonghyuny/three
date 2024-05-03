@@ -34,7 +34,7 @@ public class ReservationDetails extends JFrame{
 	 *
 	 * */
 
-	JMenuBar jMenu;
+	MenuBar jmenu;
 	JPanel jpCon;
 	JPanel jpCheck;
 	
@@ -59,22 +59,18 @@ public class ReservationDetails extends JFrame{
 	
 	// 상단 메뉴바
     public void menuBar() {
-    	jMenu = new JMenuBar();;
-    	JMenuItem logout = new JMenuItem("로그아웃");
-    	jMenu.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
-    	
-    	jMenu.add(logout);  	
-
-        // 로그아웃 메뉴 아이템에 대한 이벤트 리스너 추가
-        logout.addActionListener(new ActionListener() {
+    	jmenu = new MenuBar();	
+        
+        // 예매내역 메뉴 아이템에 대한 이벤트 리스너 추가
+        (jmenu.logout).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 로그아웃 시 LoginForm으로 이동
-				new Logout(userInfo);
-				new LoginForm();
+            	// 예매내역 화면으로 이동
+                new ReservationDetails(userInfo);
                 setVisible(false); // 현재 화면 숨기기
             }
         });
+
         
 	}
     
@@ -271,7 +267,7 @@ public class ReservationDetails extends JFrame{
  	}
     
     public void showFrame () {
-		setJMenuBar(jMenu);
+		setJMenuBar(jmenu.getMenuBar());
 		add(jpCon, BorderLayout.CENTER);
 		add(jpCheck, BorderLayout.SOUTH);
 		setSize(1400,800);

@@ -18,10 +18,6 @@ public class Join extends JFrame {
     private JTextField phoneTf;
     private JButton cancelBtn;	// 취소 버튼
     private LoginForm loginForm;	// 로그인 화면으로 넘어가기 위한 인스턴스 변수
-    private ImageIcon logoImg;
-    private JLabel logoLb;
-    
-    
     
     public Join(LoginForm loginForm) {
     	this.loginForm = loginForm;
@@ -61,7 +57,7 @@ public class Join extends JFrame {
 
         JButton registerBtn = new JButton("가입하기");
         cancelBtn = new JButton("취소");
-
+        //아이디 패널에 라벨 텍스트필드 붙히기
         jpId.add(idLb);
         jpId.add(idTf);
 
@@ -89,21 +85,12 @@ public class Join extends JFrame {
         jpMain.add(Box.createVerticalGlue());// 하단에 공간 추가
         jpMain.add(Box.createVerticalGlue());
         jpMain.add(Box.createVerticalGlue());
-
+       
         jpMain.add(totalBtn);
-
-        totalBtn.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙 정렬
-        jpName.setAlignmentX(Component.CENTER_ALIGNMENT);
-        jpId.setAlignmentX(Component.CENTER_ALIGNMENT);
-        jpPw.setAlignmentX(Component.CENTER_ALIGNMENT);
-        jpPhone.setAlignmentX(Component.CENTER_ALIGNMENT);
-        registerBtn.addActionListener(btnAl);
-        cancelBtn.addActionListener(btnAl);
-
+        //프레임에 패널 붙히기
         add(jpMain);
     }
-
-
+    
     private void showFrame() {
         setTitle("회원 가입");
         setSize(400, 400);
@@ -143,7 +130,6 @@ public class Join extends JFrame {
                 case "취소":
                 	setVisible(false);
                 	loginForm.setVisible(true);
-                    
                     break;
             }
         }

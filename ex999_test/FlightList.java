@@ -1,7 +1,6 @@
 package ex999_test;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +9,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,6 +21,7 @@ import javax.swing.table.TableColumnModel;
 
 
 
+@SuppressWarnings("serial")
 public class FlightList extends JFrame{
 	
 	UserInfo userInfo;
@@ -31,11 +29,10 @@ public class FlightList extends JFrame{
 	JLabel destinationLabel;
 	JLabel dateLabel;
 	JPanel jp;
+	MenuBar jmenu;
 	
 	String date;
 	String destination;
-	
-	JMenuBar jMenu;
 	
 	public FlightList() { }
 	
@@ -58,16 +55,10 @@ public class FlightList extends JFrame{
 	
     // 상단 메뉴바
     public void menuBar() {
-    	jMenu = new JMenuBar();
-    	JMenuItem reser = new JMenuItem("예매내역");
-    	JMenuItem logout = new JMenuItem("로그아웃");
-    	jMenu.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
-    	
-    	jMenu.add(reser);
-    	jMenu.add(logout);  	
+    	jmenu = new MenuBar();	
 
         // 로그아웃 메뉴 아이템에 대한 이벤트 리스너 추가
-        logout.addActionListener(new ActionListener() {
+        (jmenu.reser).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 로그아웃 시 LoginForm으로 이동
@@ -78,7 +69,7 @@ public class FlightList extends JFrame{
         });
         
         // 예매내역 메뉴 아이템에 대한 이벤트 리스너 추가
-        reser.addActionListener(new ActionListener() {
+        (jmenu.logout).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	// 예매내역 화면으로 이동
@@ -86,6 +77,7 @@ public class FlightList extends JFrame{
                 setVisible(false); // 현재 화면 숨기기
             }
         });
+
     }
     
     public void fligtList () {
@@ -136,7 +128,7 @@ public class FlightList extends JFrame{
         JTable table = new JTable(model);
         table.setRowHeight(50);
         
-        
+        //테이블 양옆에 여백
         jp = new JPanel(new BorderLayout());
         jp.add(Box.createHorizontalStrut(200), BorderLayout.EAST);
         jp.add(Box.createHorizontalStrut(200), BorderLayout.WEST);
@@ -195,7 +187,7 @@ public class FlightList extends JFrame{
     }
     
     public void showFrame () {
-        setJMenuBar(jMenu);
+        setJMenuBar(jmenu.getMenuBar());
         add(jp, BorderLayout.CENTER);
 		setLocation(getX( )+ 250, getY() + 110);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

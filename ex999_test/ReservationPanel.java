@@ -31,7 +31,8 @@ public class ReservationPanel extends JFrame{
 	 *
 	 * */
 	
-	JMenuBar jMenu;
+	MenuBar jmenu;
+	
 	JPanel jpCon;
 	JPanel jpCheck;
 	
@@ -58,16 +59,10 @@ public class ReservationPanel extends JFrame{
     // 상단 메뉴바
     public void menuBar() {
     	
-    	jMenu = new JMenuBar();
-    	JMenuItem reser = new JMenuItem("예매내역");
-    	JMenuItem logout = new JMenuItem("로그아웃");
-    	jMenu.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
-    	
-    	jMenu.add(reser);
-    	jMenu.add(logout);  	
+    	jmenu = new MenuBar();	
 
         // 로그아웃 메뉴 아이템에 대한 이벤트 리스너 추가
-        logout.addActionListener(new ActionListener() {
+        (jmenu.reser).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 로그아웃 시 LoginForm으로 이동
@@ -78,7 +73,7 @@ public class ReservationPanel extends JFrame{
         });
         
         // 예매내역 메뉴 아이템에 대한 이벤트 리스너 추가
-        reser.addActionListener(new ActionListener() {
+        (jmenu.logout).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	// 예매내역 화면으로 이동
@@ -218,7 +213,7 @@ public class ReservationPanel extends JFrame{
     
     public void showFrame() {
     	setTitle("항공권 조회");
-    	setJMenuBar(jMenu);
+    	setJMenuBar(jmenu.getMenuBar());
     	add(jpCon, BorderLayout.CENTER);
     	setLocation(getX( )+ 250, getY() + 110);
     	add(jpCheck, BorderLayout.SOUTH);

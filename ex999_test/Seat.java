@@ -1,4 +1,4 @@
-package flight_booking;
+package ex999_test;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -32,7 +32,7 @@ public class Seat extends JFrame{
 	UserInfo userInfo;
 	ReservationInfo tempReser;
 	String[] selectedSeatsInfo;
-	JMenuBar jmenu;
+	MenuBar jmenu;
 	int totalPrice;
 	
 	public Seat () { }   
@@ -50,33 +50,29 @@ public class Seat extends JFrame{
 
     // 상단 메뉴바
     public void menuBar() {
-    	jmenu = new JMenuBar();
-    	JMenuItem reser = new JMenuItem("예매내역");
-    	JMenuItem logout = new JMenuItem("로그아웃");
-    	jmenu.setLayout(new FlowLayout(FlowLayout.RIGHT, 12, 5));
-    	
-        jmenu.add(reser);
-        jmenu.add(logout);  	
+    	jmenu = new MenuBar();	
 
         // 로그아웃 메뉴 아이템에 대한 이벤트 리스너 추가
-        logout.addActionListener(new ActionListener() {
+        (jmenu.reser).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 로그아웃 시 LoginForm으로 이동
-                LoginForm loginForm = new LoginForm();
-                loginForm.setVisible(true);
+				new Logout(userInfo);
+				new LoginForm();
                 setVisible(false); // 현재 화면 숨기기
             }
         });
         
         // 예매내역 메뉴 아이템에 대한 이벤트 리스너 추가
-        reser.addActionListener(new ActionListener() {
+        (jmenu.logout).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	// 예매내역 화면으로 이동
+                new ReservationDetails(userInfo);
                 setVisible(false); // 현재 화면 숨기기
             }
         });
+
 
 	}
 
@@ -341,7 +337,7 @@ public class Seat extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
-        setJMenuBar(jmenu);
+        setJMenuBar(jmenu.getMenuBar());
         setVisible(true);
         
     }
@@ -355,9 +351,5 @@ public class Seat extends JFrame{
             e.printStackTrace();
         }
     }
-    
-	public void logout() {
-		userInfo = null;
-	}    
 
 }

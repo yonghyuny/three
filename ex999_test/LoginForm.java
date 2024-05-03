@@ -134,7 +134,7 @@ public class LoginForm extends JFrame {
         btnJoin.setPreferredSize(btnSize);
         
 
-        logoImg = new ImageIcon("src/img/logo.png");
+        logoImg = new ImageIcon("logo/logo.png");
         Image img = logoImg.getImage().getScaledInstance(240, 70, Image.SCALE_SMOOTH);
         ImageIcon scaleImg = new ImageIcon(img);
 		logoLb = new JLabel(scaleImg);
