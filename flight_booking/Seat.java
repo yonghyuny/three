@@ -33,6 +33,7 @@ public class Seat extends JFrame{
 	ReservationInfo tempReser;
 	String[] selectedSeatsInfo;
 	JMenuBar jmenu;
+//	JCheckBox button;
 	int totalPrice;
 	
 	public Seat () { }   
@@ -81,7 +82,7 @@ public class Seat extends JFrame{
 
 	}
 
-     
+    // 좌석
     public void flightSeat() {   
         
         JPanel pnl = new JPanel();
@@ -149,8 +150,7 @@ public class Seat extends JFrame{
         		
         		pnl.add(button);
         		seatBtn[i][j] = button;
-
-        		
+ 		
 
         		// 선택한 버튼의 좌석이름, 가격 정보 출력하기 
         		button.addActionListener(new ActionListener() {
@@ -162,8 +162,8 @@ public class Seat extends JFrame{
         
         		        // 선택한 좌석 번호를 리스트에 담기
         		        selectedSeats.add(selectedSeatText);
-
-        		        
+        		         
+        
         		        // 선택한 좌석 정보를 배열에 담아 출력
         		        selectedSeatsInfo = selectedSeats.toArray(new String[selectedSeats.size()]);
         		        if (selectedSeatsInfo[0] != null) {
@@ -171,7 +171,7 @@ public class Seat extends JFrame{
         		        }
         		        
         		        // 배열이 다 채워져야 예매하기 버튼 활성화
-        		        if (selectedSeatsInfo.length == tempReser.getCountPeople() && selectedSeatsInfo[tempReser.getCountPeople() - 1] != null) {
+        		        if (selectedSeatsInfo.length >= tempReser.getCountPeople() && selectedSeatsInfo[tempReser.getCountPeople() - 1] != null) {
         		            bookingBtn.setEnabled(true);
         		        } else {
         		            bookingBtn.setEnabled(false);
@@ -185,8 +185,6 @@ public class Seat extends JFrame{
         		            selectedSeats.remove(selectedSeatText);
         		            selectedSeatsInfo = selectedSeats.toArray(new String[selectedSeats.size()]);
         		            selectedSeatCont.setText(Arrays.toString(selectedSeatsInfo));
-        		            // 버튼 비활성화
-        		            button.setEnabled(false);
         		            
         		        } else {
         		            // 선택한 좌석의 가격 누적
@@ -214,7 +212,7 @@ public class Seat extends JFrame{
         
         
         // 등급 선택 텍스트 라벨
-        JLabel selectClass = new JLabel("좌석 등급");
+        JLabel selectClass = new JLabel("좌석 등급"); 
         selectClass.setBounds(1125,200,150,40);
         selectClass.setFont(new Font("Arial", Font.BOLD, 22));
         getContentPane().add(selectClass); 
@@ -232,10 +230,7 @@ public class Seat extends JFrame{
 				
 				// 등급 선택시 선택한 좌석정보 초기화
 		        seatPriceCont.setText("");
-		        selectedSeatCont.setText("");
-		        
-		        // 좌석 담는 리스트 초기화
-		        selectedSeatsInfo = new String[selectedSeatsInfo.length];
+		        selectedSeatCont.setText("");		        
 				
 				// 비활성화 누적방지 전체 버튼 활성화
 				for (int i=0; i<10; i++) {
@@ -266,11 +261,10 @@ public class Seat extends JFrame{
 		                    seatBtn[i][j].setEnabled(false);
 		                }
 		            }
-
 					
 				} else if(seatValue.equals(title[3])) {
 					// 퍼스트를 선택했을 때
-					// 3~10번째 줄 Button을 비활성화 시킨다.
+					// 3~10번째 줄 button을 비활성화 시킨다.
 					for (int i = 2; i < 10; i++) {
 		                for (int j = 1; j < 10; j++) {
 		                    seatBtn[i][j].setEnabled(false);
@@ -343,7 +337,7 @@ public class Seat extends JFrame{
         
     }
 	
-
+    // 최종 프레임 
     public void showFrame() {
         setTitle("좌석 선택");
         setSize(1400,800);
