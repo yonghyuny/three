@@ -91,10 +91,10 @@ public class FlightList extends JFrame{
     public void fligtList () {
     	//출발지 도착지 날짜 정보 패널
         JPanel infoPanel = new JPanel();
-        JLabel departLb = new JLabel("출발지");
-        JLabel lb1 = new JLabel("인천"); 
+        JLabel departLb = new JLabel("출발지: ");
+        JLabel lb1 = new JLabel("인천"+" "); 
         
-        destinationLabel = new JLabel("도착지 : " + destination);
+        destinationLabel = new JLabel("도착지 : " + destination+ " ");
         dateLabel = new JLabel("날짜 : " + date);
         
         departLb.setFont(new Font("맑은 고딕", Font.BOLD, 25));
@@ -102,6 +102,7 @@ public class FlightList extends JFrame{
         destinationLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
         dateLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
         
+        infoPanel.add(Box.createVerticalStrut(200));
         infoPanel.add(departLb);
         infoPanel.add(lb1);
         infoPanel.add(destinationLabel);
