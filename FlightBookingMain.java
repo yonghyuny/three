@@ -5,6 +5,5 @@ public class FlightBookingMain {
 
 	    	LoginForm loginForm = new LoginForm();
 
-
 	}
 }
