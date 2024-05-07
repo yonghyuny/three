@@ -133,6 +133,7 @@ public class Seat extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String seatValue = (String) seatClass.getSelectedItem();
+		Color color = new Color(0xDDE6ED);
 
                 if (seatValue.equals(title[0])) {
                     for (int i = 0; i < 10; i++) {
@@ -152,8 +153,7 @@ public class Seat extends JFrame {
                     	for(int i=5; i<10; i++) {
                     		for(int j=1; j<10; j++) {                    			
                     			seatBtn[i][j].setBorderPainted(true);
-                                Color color3 = new Color(0xDDE6ED);
-                            	seatBtn[i][j].setBackground(color3);
+                            	seatBtn[i][j].setBackground(color);
                     		}
                     	}
                         for (int i = 0; i < 5; i++) {
@@ -168,8 +168,7 @@ public class Seat extends JFrame {
                     	for (int i=2; i<5; i++) {
                     		for(int j=1; j<10; j++) {
                     			seatBtn[i][j].setBorderPainted(true);
-                                Color color3 = new Color(0xDDE6ED);
-                            	seatBtn[i][j].setBackground(color3);
+                            	seatBtn[i][j].setBackground(color);
                     		}
                     	}
                         for (int i = 0; i < 2; i++) {
@@ -194,8 +193,7 @@ public class Seat extends JFrame {
                     	for(int i=0; i<2; i++) {
                     		for(int j=1; j<10; j++) {
                     			seatBtn[i][j].setBorderPainted(true);
-                                Color color3 = new Color(0xDDE6ED);
-                            	seatBtn[i][j].setBackground(color3);
+                            	seatBtn[i][j].setBackground(color);
                     		}
                     	}
                         for (int i = 2; i < 10; i++) {
