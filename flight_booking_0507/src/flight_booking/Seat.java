@@ -105,22 +105,7 @@ public class Seat extends JFrame {
                 if (j % 3 == 0) {
                     gapAccumulator += gapIncrement;
                 }
-                
-             // 버튼 배경색&글자색
-                if(i<2) {	//퍼스트
-                	Color color1 = new Color(0x526D82);
-                	seatBtn[i][j].setBackground(color1);
-                	seatBtn[i][j].setForeground(Color.WHITE);
-                } else if(i<5) {	//비즈니스
-                	Color color2 = new Color(0x9DB2BF);
-                	seatBtn[i][j].setBackground(color2);
-                } else if(i<10) {	//이코노미
-                	Color color3 = new Color(0xDDE6ED);
-                	seatBtn[i][j].setBackground(color3);
-                }
 
-
-                
                 pnl.add(seatBtn[i][j]);
 
             }
@@ -129,7 +114,7 @@ public class Seat extends JFrame {
 
         JLabel selectClass = new JLabel("좌석 등급");
         selectClass.setBounds(1125, 200, 150, 40);
-        selectClass.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+        selectClass.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         getContentPane().add(selectClass);
 
         String[] title = { "등급 선택", "이코노미", "비즈니스", "퍼스트" };
@@ -163,10 +148,12 @@ public class Seat extends JFrame {
                         }
                     }
 
-                    if (seatValue.equals(title[1])) {
+                    if (seatValue.equals(title[1])) {	//이코노미
                     	for(int i=5; i<10; i++) {
                     		for(int j=1; j<10; j++) {                    			
                     			seatBtn[i][j].setBorderPainted(true);
+                                Color color3 = new Color(0xDDE6ED);
+                            	seatBtn[i][j].setBackground(color3);
                     		}
                     	}
                         for (int i = 0; i < 5; i++) {
@@ -174,12 +161,15 @@ public class Seat extends JFrame {
                                 seatBtn[i][j].setEnabled(false);
                                 seatBtn[i][j].setSelected(false);
                                 seatBtn[i][j].setBorderPainted(false);
+                                seatBtn[i][j].setBackground(null);
                             }
                         }
-                    } else if (seatValue.equals(title[2])) {
+                    } else if (seatValue.equals(title[2])) {	//비즈니스
                     	for (int i=2; i<5; i++) {
                     		for(int j=1; j<10; j++) {
                     			seatBtn[i][j].setBorderPainted(true);
+                                Color color3 = new Color(0xDDE6ED);
+                            	seatBtn[i][j].setBackground(color3);
                     		}
                     	}
                         for (int i = 0; i < 2; i++) {
@@ -187,6 +177,8 @@ public class Seat extends JFrame {
                                 seatBtn[i][j].setEnabled(false);
                                 seatBtn[i][j].setSelected(false);
                                 seatBtn[i][j].setBorderPainted(false);
+                                seatBtn[i][j].setBackground(null);
+
                             }
                         }
                         for (int i = 5; i < 10; i++) {
@@ -194,12 +186,16 @@ public class Seat extends JFrame {
                                 seatBtn[i][j].setEnabled(false);
                                 seatBtn[i][j].setSelected(false);
                                 seatBtn[i][j].setBorderPainted(false);
+                                seatBtn[i][j].setBackground(null);
+
                             }
                         }
-                    } else if (seatValue.equals(title[3])) {
+                    } else if (seatValue.equals(title[3])) {	//퍼스트
                     	for(int i=0; i<2; i++) {
                     		for(int j=1; j<10; j++) {
                     			seatBtn[i][j].setBorderPainted(true);
+                                Color color3 = new Color(0xDDE6ED);
+                            	seatBtn[i][j].setBackground(color3);
                     		}
                     	}
                         for (int i = 2; i < 10; i++) {
@@ -207,12 +203,12 @@ public class Seat extends JFrame {
                                 seatBtn[i][j].setEnabled(false);
                                 seatBtn[i][j].setSelected(false);
                                 seatBtn[i][j].setBorderPainted(false);
+                                seatBtn[i][j].setBackground(null);
                             }
                         }
                     }
                 }
             }
-
         };
 
         seatClass.addActionListener(seatAl);
@@ -267,9 +263,9 @@ public class Seat extends JFrame {
             }
         }
 
-        JLabel selectedSeat = new JLabel("선택한 좌석 정보");
+        JLabel selectedSeat = new JLabel("선택한 좌석정보");
         selectedSeat.setBounds(1125, 500, 150, 40);
-        selectedSeat.setFont(new Font("맑은 고딕", Font.BOLD, 22));
+        selectedSeat.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         getContentPane().add(selectedSeat);
 
         JLabel selectedNum = new JLabel("인원 : " + tempReser.getCountPeople());
