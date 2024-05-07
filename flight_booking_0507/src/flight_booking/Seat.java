@@ -18,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
 public class Seat extends JFrame {
@@ -66,10 +68,10 @@ public class Seat extends JFrame {
         lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
         lblNewLabel.setBounds(305, 140, 780, 40);
         lblNewLabel.setOpaque(true);
-        lblNewLabel.setBackground(Color.LIGHT_GRAY);
+        lblNewLabel.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
         getContentPane().add(lblNewLabel);
-        lblNewLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
-        lblNewLabel.setForeground(Color.white);
+        lblNewLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 16));
+        lblNewLabel.setForeground(Color.GRAY);
 
         JLabel selectedSeatCont = new JLabel();
         selectedSeatCont.setBounds(1128, 580, 150, 40);
@@ -77,12 +79,12 @@ public class Seat extends JFrame {
         selectedSeatCont.setForeground(Color.BLUE);
         getContentPane().add(selectedSeatCont);
 
-        int buttonWidth = 70;
+        int buttonWidth = 60;
         int buttonHeight = 50;
-        int startX = 300;
+        int startX = 305;
         int startY = 200;
-        int gapX = 80;
-        int gapIncrement = 40;
+        int gapX = 75;
+        int gapIncrement = 60;
         int gapAccumulator = 0;
 
         JCheckBox[][] seatBtn = new JCheckBox[10][10];
@@ -103,7 +105,22 @@ public class Seat extends JFrame {
                 if (j % 3 == 0) {
                     gapAccumulator += gapIncrement;
                 }
+                
+             // 버튼 배경색&글자색
+                if(i<2) {	//퍼스트
+                	Color color1 = new Color(0x526D82);
+                	seatBtn[i][j].setBackground(color1);
+                	seatBtn[i][j].setForeground(Color.WHITE);
+                } else if(i<5) {	//비즈니스
+                	Color color2 = new Color(0x9DB2BF);
+                	seatBtn[i][j].setBackground(color2);
+                } else if(i<10) {	//이코노미
+                	Color color3 = new Color(0xDDE6ED);
+                	seatBtn[i][j].setBackground(color3);
+                }
 
+
+                
                 pnl.add(seatBtn[i][j]);
 
             }
@@ -147,30 +164,49 @@ public class Seat extends JFrame {
                     }
 
                     if (seatValue.equals(title[1])) {
+                    	for(int i=5; i<10; i++) {
+                    		for(int j=1; j<10; j++) {                    			
+                    			seatBtn[i][j].setBorderPainted(true);
+                    		}
+                    	}
                         for (int i = 0; i < 5; i++) {
                             for (int j = 1; j < 10; j++) {
                                 seatBtn[i][j].setEnabled(false);
                                 seatBtn[i][j].setSelected(false);
+                                seatBtn[i][j].setBorderPainted(false);
                             }
                         }
                     } else if (seatValue.equals(title[2])) {
+                    	for (int i=2; i<5; i++) {
+                    		for(int j=1; j<10; j++) {
+                    			seatBtn[i][j].setBorderPainted(true);
+                    		}
+                    	}
                         for (int i = 0; i < 2; i++) {
                             for (int j = 1; j < 10; j++) {
                                 seatBtn[i][j].setEnabled(false);
                                 seatBtn[i][j].setSelected(false);
+                                seatBtn[i][j].setBorderPainted(false);
                             }
                         }
                         for (int i = 5; i < 10; i++) {
                             for (int j = 1; j < 10; j++) {
                                 seatBtn[i][j].setEnabled(false);
                                 seatBtn[i][j].setSelected(false);
+                                seatBtn[i][j].setBorderPainted(false);
                             }
                         }
                     } else if (seatValue.equals(title[3])) {
+                    	for(int i=0; i<2; i++) {
+                    		for(int j=1; j<10; j++) {
+                    			seatBtn[i][j].setBorderPainted(true);
+                    		}
+                    	}
                         for (int i = 2; i < 10; i++) {
                             for (int j = 1; j < 10; j++) {
                                 seatBtn[i][j].setEnabled(false);
                                 seatBtn[i][j].setSelected(false);
+                                seatBtn[i][j].setBorderPainted(false);
                             }
                         }
                     }
